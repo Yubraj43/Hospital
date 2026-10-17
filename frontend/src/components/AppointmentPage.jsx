@@ -25,15 +25,6 @@ function AppointmentPage() {
             </div>
           ) : (
             <form className="appointment-form" onSubmit={handleSubmit}>
-              <label className="appointment-field branch-field">
-              <span className="visually-hidden">{t("Branch")}</span>
-                <select name="branch" defaultValue="" required>
-                  <option value="" disabled>{t("Branch")}</option>
-                  <option>{t("Head Office · Bhairahawa")}</option>
-                  <option>{t("Second Branch · Bhairahawa")}</option>
-                </select>
-              </label>
-
               <div className="appointment-form-row patient-row">
                 <label className="appointment-field">
                   <span className="visually-hidden">{t("First Name")}</span>
@@ -98,10 +89,10 @@ function AppointmentPage() {
           <div className="appointment-assistance-content">
             <h2>{t("Need Assistance?")}</h2>
             <p>{t("Please feel free to contact us and we’ll help you with your appointment request.")}</p>
-            <a href="tel:+9771000000000" className="assistance-phone-icon" aria-label={t("Call our clinic")}>☎</a>
+            <a href="tel:+9779714548880" className="assistance-phone-icon" aria-label={t("Call our clinic")}>☎</a>
             <div className="assistance-phone-list">
-              <a href="tel:+9771000000000">{t("Head Office · Call the clinic")}</a>
-              <a href="tel:+9771000000000">{t("Second Branch · Call the clinic")}</a>
+              <a href="tel:+9779714548880">{t("Call our clinic")} · 971-4548880</a>
+              <a href="https://wa.me/9779714548880">{t("WhatsApp")} · +977 971-4548880</a>
             </div>
           </div>
         </aside>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLanguage } from "./LanguageContext";
+import clinicLogo from "../assets/sirjana-advanced-logo.jpg";
 import "./HeaderFooter.css";
 
 function Header() {
@@ -13,7 +14,7 @@ function Header() {
         <div className="header-container top-bar-content">
           <span>{t("Care you can trust, close to home")}</span>
           <div className="top-bar-right">
-            <a href="tel:+9771000000000">{t("Call our clinic")}</a>
+            <a href="tel:+9779714548880">{t("Call our clinic")} · 971-4548880</a>
           </div>
         </div>
       </div>
@@ -21,11 +22,7 @@ function Header() {
       <div className="main-header">
         <div className="header-container main-header-content">
           <a href="/" className="hospital-logo" onClick={closeMenu} aria-label="Sirjana Polyclinic home">
-            <span className="logo-symbol" aria-hidden="true">✚</span>
-            <span className="logo-text">
-              Sirjana <span>Polyclinic</span>
-              <small>CARE FOR EVERY GENERATION</small>
-            </span>
+            <img className="hospital-logo-image" src={clinicLogo} alt="Sirjana Advanced Polyclinic Pvt. Ltd." />
           </a>
 
           <div className="mobile-header-actions">
@@ -46,12 +43,12 @@ function Header() {
             className={`navigation ${menuOpen ? "navigation-open" : ""}`}
             aria-label={t("Main navigation")}
           >
-            <a href="https://drsulaimanalhabib.ae/departments/" onClick={closeMenu}>{t("Specialities")}</a>
-            <a href="/#doctors" onClick={closeMenu}>{t("Doctors")}</a>
-            <a href="https://drsulaimanalhabib.ae/hmg-medical-facilities/" onClick={closeMenu}>{t("Medical Facilities")}</a>
-            <a href="https://drsulaimanalhabib.ae/health-insurance" onClick={closeMenu}>{t("Insurance")}</a>
-            <a href="https://drsulaimanalhabib.ae/health-checkups-in-dubai/" onClick={closeMenu}>{t("Packages/Offers")}</a>
-            <a href="https://careers.drsulaimanalhabib.ae/" onClick={closeMenu}>{t("Careers")}</a>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Specialities")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Doctors")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Medical Facilities")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Insurance")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Packages/Offers")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Careers")}</button>
           </nav>
 
           <a href="/appointment" className="header-appointment">{t("Appointment")} <span aria-hidden="true">↗</span></a>

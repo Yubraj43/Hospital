@@ -203,7 +203,7 @@
 
 .location-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   overflow: hidden;
   border: 1px solid #e6eaee;
   border-radius: 10px;
@@ -371,6 +371,50 @@
 }
 
 .clinic-intro-copy > a:hover { text-decoration: underline; }
+
+.clinic-intro-lead {
+  max-width: 580px;
+  margin: 20px 0 0;
+  color: #5b676b;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.clinic-directions-link {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 22px;
+  color: #d91e2a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clinic-services-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 8px 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.clinic-services-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #425663;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.clinic-services-list li::before {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: #df1e2b;
+  content: "";
+}
 
 .appointment-page {
   flex: 1;
@@ -688,6 +732,10 @@
   .clinic-intro-heading h2 { font-size: 34px; }
 
   .clinic-intro-copy p { font-size: 15px; }
+
+  .clinic-intro-lead { font-size: 15px; }
+
+  .clinic-services-list { grid-template-columns: 1fr; gap: 10px; }
 
   .appointment-page { padding: 38px 18px 60px; }
 
