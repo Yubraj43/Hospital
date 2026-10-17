@@ -45,7 +45,7 @@ function Header() {
           >
             <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Specialities")}</button>
             <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Doctors")}</button>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Medical Facilities")}</button>
+            <a className="navigation-link" href="/#facilities" onClick={closeMenu}>{t("Medical Facilities")}</a>
             <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Insurance")}</button>
             <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Packages/Offers")}</button>
             <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Careers")}</button>

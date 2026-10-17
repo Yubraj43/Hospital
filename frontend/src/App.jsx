@@ -139,6 +139,23 @@ function App() {
           </article>
         </section>
 
+        <section className="medical-facilities-section" id="facilities" aria-labelledby="facilities-heading">
+          <div className="medical-facilities-heading">
+            <p className="clinic-intro-kicker">{t("CARE FOR YOUR EVERYDAY NEEDS")}</p>
+            <h2 id="facilities-heading">{t("Medical Facilities")}</h2>
+            <p>{t("Essential care and diagnostic services, together in one convenient clinic.")}</p>
+          </div>
+          <div className="medical-facilities-grid">
+            {["24/7 Emergency Care", "Outpatient Department (OPD)", "Laboratory", "Pharmacy", "X-Ray", "Ultrasound (USG)"].map((facility, index) => (
+              <article className="medical-facility-card" key={facility}>
+                <span className="medical-facility-icon" aria-hidden="true">{["✚", "＋", "⚕", "＋", "✳", "◉"][index]}</span>
+                <h3>{t(facility)}</h3>
+                <p>{t(["Urgent support is available day and night.", "Consultations and care for your health needs.", "Reliable testing to help guide your care.", "Access to the medicines your care requires.", "Clear imaging to support diagnosis.", "Ultrasound imaging with attentive care."][index])}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="clinic-intro-section" id="about">
           <div className="clinic-intro-heading">
             <p className="clinic-intro-kicker">{t("HEALTHCARE IN ROHINI-3, DHAKDHAI")}</p>
@@ -148,9 +165,6 @@ function App() {
           </div>
           <div className="clinic-intro-copy">
             <p>{t("From urgent care to everyday checkups, our team brings essential clinic services together in one convenient place.")}</p>
-            <ul className="clinic-services-list">
-              {["24/7 Emergency Care", "Outpatient Department (OPD)", "Laboratory", "Pharmacy", "X-Ray", "Ultrasound (USG)", "Family Planning"].map((service) => <li key={service}>{t(service)}</li>)}
-            </ul>
             <a href="/appointment">{t("Book an appointment")} <span aria-hidden="true">→</span></a>
           </div>
         </section>
