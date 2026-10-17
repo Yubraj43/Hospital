@@ -35,7 +35,7 @@ const slides = [
     title: "A healthier tomorrow starts today.",
     description: "Get the support, guidance, and care you need from a team that listens.",
     action: "Meet our care team",
-    href: "https://drsulaimanalhabib.ae/doctors/",
+    href: "/#doctors",
     image: clinicDoctor,
     imageAlt: "Doctor welcoming a patient for a consultation",
     theme: "hero-slide-family",
@@ -45,7 +45,7 @@ const slides = [
     title: "Your health, our priority.",
     description: "From everyday checkups to expert advice, we're here to help you feel your best.",
     action: "Explore our services",
-    href: "https://drsulaimanalhabib.ae/departments/",
+    href: "ntg",
     image: clinicAmbulance,
     imageAlt: "Ambulance ready outside a clinic",
     theme: "hero-slide-wellness",
@@ -119,12 +119,12 @@ function App() {
 
         <section className="location-emergency-section" aria-label="Clinic locations and emergency support">
           <div className="location-cards">
-            <article className="location-card doctor-finder-card">
+            <article className="location-card doctor-finder-card" id="doctors">
               <span className="location-icon doctor-icon" aria-hidden="true">✚</span>
               <p className="location-kicker">EXPERT CARE</p>
               <h2>{t("Find Your Doctor")}</h2>
               <p className="location-description">{t("Meet our caring medical team and find the right specialist for your needs.")}</p>
-              <a href="https://drsulaimanalhabib.ae/doctors/">{t("Find Healthcare Experts")} <span aria-hidden="true">→</span></a>
+              <a href="#doctors">{t("Find Healthcare Experts")} <span aria-hidden="true">→</span></a>
             </article>
 
             <article className="location-card">

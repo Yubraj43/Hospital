@@ -584,8 +584,14 @@
   .hero-shade { background: linear-gradient(0deg, #103746 0%, #103746f2 31%, #10374670 68%, #10374618 100%); }
   .hero-slide-family .hero-shade,
   .hero-slide-wellness .hero-shade { background: linear-gradient(0deg, #103746 0%, #103746e8 38%, #10374658 78%, #10374620 100%); }
-  .hero-slide-pregnancy .hero-photo { height: 100%; object-position: 63% center; }
-  .hero-slide-pregnancy .hero-shade { background: linear-gradient(0deg, #8f3e5d 0%, #8f3e5dce 38%, #8f3e5d50 82%, #8f3e5d20 100%); }
+  .hero-slide-pregnancy { min-height: 0; height: min(570px, 78vh); align-items: flex-end; background: #a95670; }
+  .hero-slide-pregnancy .hero-photo { inset: 0 0 auto; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: contain; object-position: center top; background: #a95670; }
+  .hero-slide-pregnancy .hero-shade { background: linear-gradient(180deg, #8f3e5d00 0%, #8f3e5d00 27%, #8f3e5d9c 49%, #8f3e5d 72%); }
+  .hero-slide-pregnancy .hero-copy { position: absolute; inset: auto 0 0; width: auto; padding: 20px 18px 40px; background: transparent; }
+  .hero-slide-pregnancy .hero-copy .welcome-label { margin-bottom: 5px; font-size: 8px; }
+  .hero-slide-pregnancy .hero-copy h1 { max-width: 68%; font-size: clamp(17px, 5vw, 25px); line-height: 1.05; }
+  .hero-slide-pregnancy .hero-copy p { max-width: 68%; margin: 5px 0 0; font-size: 10px; line-height: 1.3; }
+  .hero-slide-pregnancy .hero-copy > .page-appointment-button { right: 0; bottom: 16px; padding: 11px 13px; border-radius: 9px 0 0 9px; font-size: 11px; }
   .hero-copy { width: auto; margin: 0; padding: 155px 28px 57px; }
   .welcome-label { margin-bottom: 8px; font-size: 9px; letter-spacing: 1.3px; }
   .hero-copy h1 { max-width: 340px; font-size: clamp(30px, 8vw, 42px); letter-spacing: -1px; }

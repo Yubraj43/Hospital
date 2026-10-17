@@ -20,7 +20,7 @@ function Footer() {
         <div className="footer-column">
           <h3>{t("Explore")}</h3>
           <a href="https://drsulaimanalhabib.ae/departments/">{t("Specialities")}</a>
-          <a href="https://drsulaimanalhabib.ae/doctors/">{t("Doctors")}</a>
+          <a href="/#doctors">{t("Doctors")}</a>
           <a href="https://drsulaimanalhabib.ae/hmg-medical-facilities/">{t("Medical Facilities")}</a>
           <a href="https://drsulaimanalhabib.ae/health-insurance">{t("Insurance")}</a>
           <a href="https://drsulaimanalhabib.ae/health-checkups-in-dubai/">{t("Packages/Offers")}</a>

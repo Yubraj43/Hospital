@@ -47,7 +47,7 @@ function Header() {
             aria-label={t("Main navigation")}
           >
             <a href="https://drsulaimanalhabib.ae/departments/" onClick={closeMenu}>{t("Specialities")}</a>
-            <a href="https://drsulaimanalhabib.ae/doctors/" onClick={closeMenu}>{t("Doctors")}</a>
+            <a href="/#doctors" onClick={closeMenu}>{t("Doctors")}</a>
             <a href="https://drsulaimanalhabib.ae/hmg-medical-facilities/" onClick={closeMenu}>{t("Medical Facilities")}</a>
             <a href="https://drsulaimanalhabib.ae/health-insurance" onClick={closeMenu}>{t("Insurance")}</a>
             <a href="https://drsulaimanalhabib.ae/health-checkups-in-dubai/" onClick={closeMenu}>{t("Packages/Offers")}</a>
