@@ -6,6 +6,7 @@ import clinicReception from "./assets/clinic-reception.jpg";
 import clinicDoctor from "./assets/clinic-doctor.jpg";
 import clinicAmbulance from "./assets/clinic-ambulance.jpg";
 import AppointmentPage from "./components/AppointmentPage";
+import { useLanguage } from "./components/LanguageContext";
 import "./App.css";
 
 const slides = [
@@ -53,6 +54,7 @@ const slides = [
 
 function App() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const { language, setLanguage, t } = useLanguage();
   const isAppointmentPage = window.location.pathname === "/appointment";
 
   useEffect(() => {
@@ -75,6 +77,7 @@ function App() {
         <Header />
         <AppointmentPage />
         <Footer />
+        <FloatingContactTools language={language} setLanguage={setLanguage} />
       </>
     );
   }
@@ -88,14 +91,14 @@ function App() {
           {slide.image && <img className="hero-photo" src={slide.image} alt={slide.imageAlt} />}
           <div className="hero-shade" />
           <div className="hero-copy" key={activeSlide}>
-            <span className="welcome-label">{slide.eyebrow}</span>
-            <h1>{slide.title}</h1>
-            <p>{slide.description}</p>
+            <span className="welcome-label">{t(slide.eyebrow)}</span>
+            <h1>{t(slide.title)}</h1>
+            <p>{t(slide.description)}</p>
             <a href={slide.href || "/appointment"} className="page-appointment-button">
-              {slide.action} <span aria-hidden="true">→</span>
+              {t(slide.action)} <span aria-hidden="true">→</span>
             </a>
-            <a href="/appointment" className="hero-mobile-appointment">Book Appointment <span aria-hidden="true">→</span></a>
-            <span className="hero-mobile-availability">Available all week</span>
+            <a href="/appointment" className="hero-mobile-appointment">{t("Book Appointment")} <span aria-hidden="true">→</span></a>
+            <span className="hero-mobile-availability">{t("Available all week")}</span>
           </div>
 
           <button className="hero-arrow hero-arrow-previous" type="button" aria-label="Previous banner" onClick={() => showSlide(activeSlide - 1)}>‹</button>
@@ -119,56 +122,88 @@ function App() {
             <article className="location-card doctor-finder-card">
               <span className="location-icon doctor-icon" aria-hidden="true">✚</span>
               <p className="location-kicker">EXPERT CARE</p>
-              <h2>Find Your Doctor</h2>
-              <p className="location-description">Meet our caring medical team and find the right specialist for your needs.</p>
-              <a href="https://drsulaimanalhabib.ae/doctors/">Find Healthcare Experts <span aria-hidden="true">→</span></a>
+              <h2>{t("Find Your Doctor")}</h2>
+              <p className="location-description">{t("Meet our caring medical team and find the right specialist for your needs.")}</p>
+              <a href="https://drsulaimanalhabib.ae/doctors/">{t("Find Healthcare Experts")} <span aria-hidden="true">→</span></a>
             </article>
 
             <article className="location-card">
               <span className="location-icon" aria-hidden="true">⌖</span>
-              <p className="location-kicker">HEAD OFFICE</p>
-              <h2>Sirjana Polyclinic</h2>
-              <p className="location-description">Visit our main clinic for consultations, checkups, and family healthcare.</p>
-              <a href="#contact">Get directions <span aria-hidden="true">→</span></a>
+              <p className="location-kicker">{t("HEAD OFFICE")}</p>
+              <h2>{t("Sirjana Polyclinic")}</h2>
+              <p className="location-description">{t("Visit our main clinic for consultations, checkups, and family healthcare.")}</p>
+              <a href="#contact">{t("Get directions")} <span aria-hidden="true">→</span></a>
             </article>
 
             <article className="location-card">
               <span className="location-icon" aria-hidden="true">⌖</span>
-              <p className="location-kicker">OUR SECOND BRANCH</p>
-              <h2>Sirjana Polyclinic</h2>
-              <p className="location-description">Find the same caring team and convenient outpatient services at our second location.</p>
-              <a href="#contact">Get directions <span aria-hidden="true">→</span></a>
+              <p className="location-kicker">{t("OUR SECOND BRANCH")}</p>
+              <h2>{t("Sirjana Polyclinic")}</h2>
+              <p className="location-description">{t("Find the same caring team and convenient outpatient services at our second location.")}</p>
+              <a href="#contact">{t("Get directions")} <span aria-hidden="true">→</span></a>
             </article>
           </div>
 
           <article className="emergency-card">
             <span className="ambulance-icon" aria-hidden="true">✚</span>
-            <p className="emergency-kicker">HERE WHEN YOU NEED US</p>
-            <h2>24/7 Ambulance Service</h2>
-            <p>For urgent medical help, our ambulance team is ready around the clock. Call for emergency assistance and we’ll help you get the care you need.</p>
-            <a href="tel:100" className="emergency-call">Call for emergency help <span aria-hidden="true">→</span></a>
+            <p className="emergency-kicker">{t("HERE WHEN YOU NEED US")}</p>
+            <h2>{t("24/7 Ambulance Service")}</h2>
+            <p>{t("For urgent medical help, our ambulance team is ready around the clock. Call for emergency assistance and we’ll help you get the care you need.")}</p>
+            <a href="tel:100" className="emergency-call">{t("Call for emergency help")} <span aria-hidden="true">→</span></a>
           </article>
         </section>
 
         <section className="clinic-intro-section" id="about">
           <div className="clinic-intro-heading">
-            <p className="clinic-intro-kicker">A NEW CLINIC, HERE FOR YOU</p>
-            <h2>Good care starts with listening.</h2>
+            <p className="clinic-intro-kicker">{t("A NEW CLINIC, HERE FOR YOU")}</p>
+            <h2>{t("Good care starts with listening.")}</h2>
           </div>
           <div className="clinic-intro-copy">
             <p>
-              Sirjana Polyclinic is getting ready to welcome the Bhairahawa community. We’re building a place where you and your family can feel heard, cared for, and supported at every visit.
+              {t("Sirjana Polyclinic is getting ready to welcome the Bhairahawa community. We’re building a place where you and your family can feel heard, cared for, and supported at every visit.")}
             </p>
             <p>
-              We’re just getting started, and we look forward to sharing more about our team, services, and opening soon. Until then, get in touch and we’ll be happy to help with your questions.
+              {t("We’re just getting started, and we look forward to sharing more about our team, services, and opening soon. Until then, get in touch and we’ll be happy to help with your questions.")}
             </p>
-            <a href="#contact">Talk to our team <span aria-hidden="true">→</span></a>
+            <a href="#contact">{t("Talk to our team")} <span aria-hidden="true">→</span></a>
           </div>
         </section>
       </main>
 
       <Footer />
+      <FloatingContactTools language={language} setLanguage={setLanguage} />
     </>
+  );
+}
+
+function FloatingContactTools({ language, setLanguage }) {
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+
+  return (
+    <div className="floating-contact-tools">
+      <a className="whatsapp-float" href="https://wa.me/9779849797813?text=Hello%20Sirjana%20Polyclinic" target="_blank" rel="noreferrer" aria-label="Chat with Sirjana Polyclinic on WhatsApp">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.04 3.2A12.7 12.7 0 0 0 5.1 22.35L3.3 28.9l6.7-1.75A12.7 12.7 0 1 0 16.04 3.2Zm0 23.1c-1.95 0-3.85-.52-5.5-1.52l-.4-.23-3.97 1.04 1.06-3.86-.26-.4A10.38 10.38 0 1 1 16.04 26.3Zm5.7-7.78c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.68.15-.2.3-.78.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.47-2.4-1.49-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.25-.59-.5-.5-.68-.51l-.58-.01c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.23 5.13 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.89.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.18-1.43-.08-.12-.28-.2-.58-.35Z" /></svg>
+      </a>
+      <div className="language-picker">
+        <button
+          className="language-icon-button"
+          type="button"
+          aria-label="Choose language"
+          aria-expanded={languageMenuOpen}
+          aria-controls="language-options"
+          onClick={() => setLanguageMenuOpen((open) => !open)}
+        >
+          <svg className="language-globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3.5 12h17M12 3c2.4 2.5 3.5 5.5 3.5 9s-1.1 6.5-3.5 9c-2.4-2.5-3.5-5.5-3.5-9S9.6 5.5 12 3Z" /></svg>
+        </button>
+        {languageMenuOpen && (
+          <div className="language-options" id="language-options" role="group" aria-label="Language options">
+            <button type="button" aria-pressed={language === "en"} onClick={() => { setLanguage("en"); setLanguageMenuOpen(false); }}>English</button>
+            <button type="button" aria-pressed={language === "ne"} onClick={() => { setLanguage("ne"); setLanguageMenuOpen(false); }}>नेपाली</button>
+            <button type="button" aria-pressed={language === "bho"} onClick={() => { setLanguage("bho"); setLanguageMenuOpen(false); }}>भोजपुरी</button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 

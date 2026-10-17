@@ -51,6 +51,97 @@ cursor: pointer;
 font-size: 12px;
 }
 
+.floating-contact-tools {
+  position: fixed;
+  z-index: 50;
+  right: 22px;
+  bottom: 18px;
+  left: 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.whatsapp-float,
+.language-picker { pointer-events: auto; }
+
+.whatsapp-float {
+  display: grid;
+  width: 66px;
+  height: 66px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #20cf70;
+  box-shadow: 0 7px 22px #0003;
+  color: #fff;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.whatsapp-float:hover { transform: translateY(-3px); background: #17b960; }
+
+.whatsapp-float svg { width: 42px; height: 42px; fill: currentColor; }
+
+.language-picker { position: relative; }
+
+.language-icon-button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid #d7dce0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3px 14px #00000012;
+  cursor: pointer;
+}
+
+.language-globe {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: #d91e2a;
+  stroke-width: 1.7;
+}
+
+.language-options {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  display: flex;
+  min-width: 150px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #e0e6e9;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 10px 30px #132c3b26;
+}
+
+.language-options button {
+  padding: 12px 16px;
+  border: 0;
+  border-bottom: 1px solid #eef1f3;
+  background: #fff;
+  color: #344957;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.language-options button:last-child { border-bottom: 0; }
+.language-options button:hover,
+.language-options button[aria-pressed="true"] { background: #f6f8f9; color: #d91e2a; }
+
+@media (max-width: 760px) {
+  .floating-contact-tools { right: 14px; bottom: 12px; left: 14px; }
+  .whatsapp-float { width: 60px; height: 60px; }
+  .whatsapp-float svg { width: 38px; height: 38px; }
+  .language-icon-button { width: 40px; height: 40px; }
+  .language-globe { width: 20px; height: 20px; }
+}
+
 /* Main header */
 
 .main-header {
@@ -592,9 +683,11 @@ grid-column: 1 / -1;
 .quick-contact-card { grid-column: 1 / -1; }
 
 .footer-bottom-content {
-align-items: flex-start;
+width: 100%;
+align-items: center;
 flex-direction: column;
 justify-content: center;
+text-align: center;
 padding-top: 17px;
 padding-bottom: 17px;
 gap: 5px;
