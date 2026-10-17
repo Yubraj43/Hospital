@@ -5,6 +5,8 @@ const LanguageContext = createContext(null);
 const translations = {
   en: {},
   ne: {
+    "Our Services": "हाम्रा सेवाहरू", "Packages and Offers": "प्याकेज तथा अफरहरू",
+    "Login": "लगइन", "Notice": "सूचना", "Gallery": "ग्यालरी",
     "Specialities": "विशेषताहरू", "Doctors": "डाक्टरहरू", "Medical Facilities": "चिकित्सा सुविधा",
     "Insurance": "बीमा", "Packages/Offers": "प्याकेज/अफर", "Careers": "रोजगारी",
     "MATERNITY CARE AT SIRJANA POLYCLINIC": "सिर्जना पोलिक्लिनिकमा मातृत्व सेवा",
@@ -75,6 +77,8 @@ const translations = {
     "Facebook": "फेसबुक", "Instagram": "इन्स्टाग्राम", "TikTok": "टिकटक", "Chat with Sirjana Polyclinic on WhatsApp": "व्हाट्सएपमा सिर्जना पोलिक्लिनिकसँग कुरा गर्नुहोस्",
   },
   bho: {
+    "Our Services": "हमार सेवाएँ", "Packages and Offers": "पैकेज आ ऑफर",
+    "Login": "लॉगिन", "Notice": "सूचना", "Gallery": "गैलरी",
     "Specialities": "विशेष सेवा", "Doctors": "डाक्टर लोग", "Medical Facilities": "चिकित्सा सुविधा",
     "Insurance": "बीमा", "Packages/Offers": "पैकेज/ऑफर", "Careers": "नौकरी",
     "MATERNITY CARE AT SIRJANA POLYCLINIC": "सिर्जना पोलिक्लिनिक में मातृत्व सेवा",

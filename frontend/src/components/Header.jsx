@@ -23,6 +23,7 @@ function Header() {
         <div className="header-container main-header-content">
           <a href="/" className="hospital-logo" onClick={closeMenu} aria-label="Sirjana Polyclinic home">
             <img className="hospital-logo-image" src={clinicLogo} alt="Sirjana Advanced Polyclinic Pvt. Ltd." />
+            <span className="header-clinic-name"><span>Sirjana Advanced</span><strong>Polyclinic</strong></span>
           </a>
 
           <div className="mobile-header-actions">
@@ -43,12 +44,13 @@ function Header() {
             className={`navigation ${menuOpen ? "navigation-open" : ""}`}
             aria-label={t("Main navigation")}
           >
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Specialities")}</button>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Doctors")}</button>
-            <a className="navigation-link" href="/#facilities" onClick={closeMenu}>{t("Medical Facilities")}</a>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Insurance")}</button>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Packages/Offers")}</button>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Careers")}</button>
+            <a className="navigation-link" href="/#services" onClick={closeMenu}>{t("Our Services")}</a>
+            <a className="navigation-link" href="/#doctors" onClick={closeMenu}>{t("Doctors")}</a>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Medical Facilities")}</button>
+            <a className="navigation-link" href="/#home" onClick={closeMenu}>{t("Packages and Offers")}</a>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Gallery")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Notice")}</button>
+            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Login")}</button>
           </nav>
 
           <a href="/appointment" className="header-appointment">{t("Appointment")} <span aria-hidden="true">↗</span></a>

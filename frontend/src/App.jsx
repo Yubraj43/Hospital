@@ -139,10 +139,23 @@ function App() {
           </article>
         </section>
 
-        <section className="medical-facilities-section" id="facilities" aria-labelledby="facilities-heading">
+        <section className="clinic-intro-section" id="about">
+          <div className="clinic-intro-heading">
+            <p className="clinic-intro-kicker">{t("HEALTHCARE IN ROHINI-3, DHAKDHAI")}</p>
+            <h2>{t("Everyday care, all under one roof.")}</h2>
+            <p className="clinic-intro-lead">{t("Sirjana Advanced Polyclinic is here for individuals and families in DHAKDHAI and across Rupandehi.")}</p>
+            <a className="clinic-directions-link" href="https://maps.app.goo.gl/GLVyPFQy24UjXZkc9?g_st=aw" target="_blank" rel="noreferrer">{t("Get directions")} <span aria-hidden="true">↗</span></a>
+          </div>
+          <div className="clinic-intro-copy">
+            <p>{t("From urgent care to everyday checkups, our team brings essential clinic services together in one convenient place.")}</p>
+            <a href="/appointment">{t("Book an appointment")} <span aria-hidden="true">→</span></a>
+          </div>
+        </section>
+
+        <section className="medical-facilities-section" id="services" aria-labelledby="facilities-heading">
           <div className="medical-facilities-heading">
             <p className="clinic-intro-kicker">{t("CARE FOR YOUR EVERYDAY NEEDS")}</p>
-            <h2 id="facilities-heading">{t("Medical Facilities")}</h2>
+            <h2 id="facilities-heading">{t("Our Services")}</h2>
             <p>{t("Essential care and diagnostic services, together in one convenient clinic.")}</p>
           </div>
           <div className="medical-facilities-grid">
@@ -156,18 +169,6 @@ function App() {
           </div>
         </section>
 
-        <section className="clinic-intro-section" id="about">
-          <div className="clinic-intro-heading">
-            <p className="clinic-intro-kicker">{t("HEALTHCARE IN ROHINI-3, DHAKDHAI")}</p>
-            <h2>{t("Everyday care, all under one roof.")}</h2>
-            <p className="clinic-intro-lead">{t("Sirjana Advanced Polyclinic is here for individuals and families in DHAKDHAI and across Rupandehi.")}</p>
-            <a className="clinic-directions-link" href="https://maps.app.goo.gl/GLVyPFQy24UjXZkc9?g_st=aw" target="_blank" rel="noreferrer">{t("Get directions")} <span aria-hidden="true">↗</span></a>
-          </div>
-          <div className="clinic-intro-copy">
-            <p>{t("From urgent care to everyday checkups, our team brings essential clinic services together in one convenient place.")}</p>
-            <a href="/appointment">{t("Book an appointment")} <span aria-hidden="true">→</span></a>
-          </div>
-        </section>
       </main>
 
       <Footer />
