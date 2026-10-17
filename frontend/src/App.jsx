@@ -55,7 +55,8 @@ const slides = [
 function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   const { language, setLanguage, t } = useLanguage();
-  const isAppointmentPage = window.location.pathname === "/appointment";
+  const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+  const isAppointmentPage = currentPath === "/appointment";
 
   useEffect(() => {
     const timer = window.setInterval(() => {
