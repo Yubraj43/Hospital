@@ -75,7 +75,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # collectstatic build step is skipped or configured with the wrong root.
 WHITENOISE_USE_FINDERS = True
 MEDIA_URL = "/media/"
-MEDIA_ROOT = Path(os.environ.get("MEDIA_ROOT", BASE_DIR / "media"))
+MEDIA_ROOT = Path(
+    os.environ.get("MEDIA_ROOT")
+    or os.environ.get("RAILWAY_VOLUME_MOUNT_PATH")
+    or BASE_DIR / "media"
+)
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 _default_frontend_origins = [
@@ -125,6 +129,9 @@ RESEND_FROM_EMAIL = os.environ.get("RESEND_FROM_EMAIL", "").strip()
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend" if EMAIL_HOST else "django.core.mail.backends.console.EmailBackend"
 
 if not DEBUG:
+    # Railway terminates HTTPS at its edge and forwards X-Forwarded-Proto.
+    # DRF uses this to build absolute media URLs; without it, photos point to HTTP.
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True

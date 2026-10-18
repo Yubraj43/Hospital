@@ -61,7 +61,7 @@ Create a Railway project from the GitHub repository, then configure its Django s
 3. Set the build command to `python manage.py collectstatic --no-input`.
 4. Set the start command to `bash railway-start.sh`. It applies migrations, creates the configured superuser if missing, and starts Gunicorn on Railway's assigned port.
 5. Generate a public domain, then set `DJANGO_ALLOWED_HOSTS` to that exact host without `https://` or a trailing slash.
-6. Add a persistent volume mounted at `/app/media`, and set `MEDIA_ROOT=/app/media` so uploaded photos and documents survive restarts.
+6. Add a persistent volume mounted at `/app/media` so uploaded photos and documents survive restarts. The backend uses Railway's `RAILWAY_VOLUME_MOUNT_PATH` automatically when `MEDIA_ROOT` is not explicitly set.
 7. Set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `FRONTEND_ORIGINS=https://hospital-rose-nu.vercel.app`, `DJANGO_SUPERUSER_USERNAME`, `DJANGO_SUPERUSER_PASSWORD`, and `DJANGO_SUPERUSER_EMAIL`. For appointment email notifications on Trial/Hobby, add `RESEND_API_KEY` and `RESEND_FROM_EMAIL` in Railway after setting up Resend and verifying the sender domain. Enter secrets directly in Railway; do not commit them.
 8. Confirm `https://<railway-domain>/api/health/` returns `{"status":"ok"}` before changing Vercel's `VITE_API_BASE_URL` to `https://<railway-domain>/api` and redeploying the frontend.
 
