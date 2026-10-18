@@ -83,7 +83,7 @@ function App() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
+    const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
     fetch(`${apiBaseUrl}/emergency-contact/`, { signal: controller.signal })
       .then((response) => response.ok ? response.json() : null)
       .then((data) => {

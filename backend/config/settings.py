@@ -75,9 +75,19 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = [origin.strip() for origin in os.environ.get(
-    "FRONTEND_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
-).split(",") if origin.strip()]
+_default_frontend_origins = [
+    "https://hospital-rose-nu.vercel.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+_configured_frontend_origins = [
+    origin.strip()
+    for origin in os.environ.get("FRONTEND_ORIGINS", "").split(",")
+    if origin.strip()
+]
+CORS_ALLOWED_ORIGINS = list(dict.fromkeys(
+    _default_frontend_origins + _configured_frontend_origins
+))
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],

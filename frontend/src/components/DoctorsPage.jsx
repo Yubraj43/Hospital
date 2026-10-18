@@ -3,7 +3,7 @@ import clinicDoctor from "../assets/clinic-doctor.jpg";
 import { useLanguage } from "./LanguageContext";
 import "./DoctorsPage.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
 
 function DoctorsPage({ slug }) {
   const [doctors, setDoctors] = useState([]);

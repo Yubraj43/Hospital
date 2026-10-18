@@ -10,13 +10,22 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
 
-        username = os.environ.get("ADMIN_USERNAME")
-        email = os.environ.get("ADMIN_EMAIL", "")
-        password = os.environ.get("ADMIN_PASSWORD")
+        # Prefer Django-prefixed deployment settings, while keeping the
+        # shorter names supported for existing Render configurations.
+        username = os.environ.get("DJANGO_SUPERUSER_USERNAME") or os.environ.get(
+            "ADMIN_USERNAME"
+        )
+        email = os.environ.get("DJANGO_SUPERUSER_EMAIL") or os.environ.get(
+            "ADMIN_EMAIL", ""
+        )
+        password = os.environ.get("DJANGO_SUPERUSER_PASSWORD") or os.environ.get(
+            "ADMIN_PASSWORD"
+        )
 
         if not username or not password:
             raise CommandError(
-                "Set ADMIN_USERNAME and ADMIN_PASSWORD environment variables."
+                "Set DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD "
+                "environment variables."
             )
 
         if User.objects.filter(username=username).exists():
