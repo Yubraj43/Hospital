@@ -62,7 +62,9 @@ const slides = [
 
 function App() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [emergencyPhone, setEmergencyPhone] = useState("");
+  // Keep the clinic's current emergency number visible while the API loads or
+  // if a temporary network/CORS issue prevents the request from completing.
+  const [emergencyPhone, setEmergencyPhone] = useState("9816812191");
   const { language, setLanguage, t } = useLanguage();
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
   const isAppointmentPage = currentPath === "/appointment";
@@ -90,7 +92,7 @@ function App() {
         if (data?.phone_number) setEmergencyPhone(data.phone_number);
       })
       .catch((error) => {
-        if (error.name !== "AbortError") setEmergencyPhone("");
+        if (error.name !== "AbortError") console.error("Could not load emergency contact settings.", error);
       });
     return () => controller.abort();
   }, []);
