@@ -44,12 +44,12 @@ function Header() {
             className={`navigation ${menuOpen ? "navigation-open" : ""}`}
             aria-label={t("Main navigation")}
           >
-            <a className="navigation-link" href="/#services" onClick={closeMenu}>{t("Our Services")}</a>
-            <a className="navigation-link" href="/#doctors" onClick={closeMenu}>{t("Doctors")}</a>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Medical Facilities")}</button>
-            <a className="navigation-link" href="/#home" onClick={closeMenu}>{t("Packages and Offers")}</a>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Gallery")}</button>
-            <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Notice")}</button>
+            <a className="navigation-link" href="/services" onClick={closeMenu}>{t("Our Services")}</a>
+            <a className="navigation-link" href="/doctors" onClick={closeMenu}>{t("Doctors")}</a>
+            <a className="navigation-link" href="/facilities" onClick={closeMenu}>{t("Medical Facilities")}</a>
+            <a className="navigation-link" href="/offers" onClick={closeMenu}>{t("Packages and Offers")}</a>
+            <a className="navigation-link" href="/gallery" onClick={closeMenu}>{t("Gallery")}</a>
+            <a className="navigation-link" href="/notices" onClick={closeMenu}>{t("Notice")}</a>
             <button type="button" className="navigation-placeholder" onClick={closeMenu}>{t("Login")}</button>
           </nav>
 

@@ -1,0 +1,16 @@
+.notice-popup-open { overflow: hidden; }
+.notice-popup-backdrop { position: fixed; z-index: 1100; inset: 0; display: grid; place-items: center; overflow-y: auto; padding: 22px; background: #081820b8; animation: notice-backdrop-in .2s ease both; }
+.notice-popup { position: relative; width: min(520px, 100%); padding: 38px; border: 1px solid #e5eaec; border-radius: 17px; background: #fff; box-shadow: 0 30px 100px #0005; animation: notice-popup-in .25s ease both; }
+.notice-popup-close { position: absolute; top: 14px; right: 14px; display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #e3e8eb; border-radius: 50%; background: #fff; color: #435561; font-size: 27px; cursor: pointer; }
+.notice-popup-icon { display: grid; width: 50px; height: 50px; place-items: center; margin-bottom: 18px; border-radius: 50%; background: #fff0f1; color: #d51e2b; font-size: 24px; font-weight: 800; }
+.notice-popup-eyebrow { margin: 0 0 8px; color: #d51e2b; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; }
+.notice-popup h2 { margin: 0; padding-right: 24px; color: #243a4b; font-size: 27px; line-height: 1.25; }
+.notice-popup-summary { margin: 14px 0 0; color: #65747d; font-size: 15px; line-height: 1.7; white-space: pre-line; }
+.notice-popup-date { margin: 17px 0 0; color: #7b8990; font-size: 12px; }
+.notice-popup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+.notice-popup-pdf, .notice-popup-dismiss { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border: 1px solid #d51e2b; border-radius: 6px; background: #d51e2b; color: #fff; font: inherit; font-size: 14px; font-weight: 750; text-decoration: none; cursor: pointer; }
+.notice-popup-dismiss { border-color: #dfe5e8; background: #fff; color: #3f515d; }
+@keyframes notice-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes notice-popup-in { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 600px) { .notice-popup-backdrop { align-items: end; padding: 12px; } .notice-popup { padding: 30px 24px 24px; border-radius: 16px 16px 12px 12px; } .notice-popup h2 { font-size: 23px; } }
+@media (prefers-reduced-motion: reduce) { .notice-popup-backdrop, .notice-popup { animation-duration: .01ms; } }

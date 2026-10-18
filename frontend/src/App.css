@@ -536,6 +536,17 @@
   line-height: 1.6;
 }
 
+.appointment-form-error {
+  margin: 0;
+  padding: 13px 15px;
+  border: 1px solid #f1b8bc;
+  border-radius: 8px;
+  background: #fff4f4;
+  color: #a71925;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .appointment-submit {
   display: inline-flex;
   min-height: 50px;
@@ -553,6 +564,7 @@
 }
 
 .appointment-submit:hover { background: #bd1722; }
+.appointment-submit:disabled { cursor: wait; opacity: .7; }
 
 .appointment-assistance {
   position: relative;

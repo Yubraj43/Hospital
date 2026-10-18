@@ -6,6 +6,14 @@ import clinicReception from "./assets/clinic-reception.jpg";
 import clinicDoctor from "./assets/clinic-doctor.jpg";
 import clinicAmbulance from "./assets/clinic-ambulance.jpg";
 import AppointmentPage from "./components/AppointmentPage";
+import DoctorsPage from "./components/DoctorsPage";
+import GalleryPage from "./components/GalleryPage";
+import NoticesPage from "./components/NoticesPage";
+import FirstVisitNoticePopup from "./components/FirstVisitNoticePopup";
+import HomeFeaturedNotices from "./components/HomeFeaturedNotices";
+import ServicesPage from "./components/ServicesPage";
+import FacilitiesPage from "./components/FacilitiesPage";
+import OffersPage from "./components/OffersPage";
 import { useLanguage } from "./components/LanguageContext";
 import "./App.css";
 
@@ -15,7 +23,7 @@ const slides = [
     title: "A little pink. A lot of hope.",
     description: "Gentle, personalized care for you and your growing family.",
     action: "Get Offer Now",
-    href: "/appointment",
+    href: "/offers",
     image: pregnancyBanner,
     imageAlt: "Pregnant mother in a flower garden",
     theme: "hero-slide-pregnancy",
@@ -35,7 +43,7 @@ const slides = [
     title: "A healthier tomorrow starts today.",
     description: "Get the support, guidance, and care you need from a team that listens.",
     action: "Meet our care team",
-    href: "/#doctors",
+    href: "/doctors",
     image: clinicDoctor,
     imageAlt: "Doctor welcoming a patient for a consultation",
     theme: "hero-slide-family",
@@ -45,7 +53,7 @@ const slides = [
     title: "Your health, our priority.",
     description: "From everyday checkups to expert advice, we're here to help you feel your best.",
     action: "Explore our services",
-    href: "/appointment",
+    href: "/services",
     image: clinicAmbulance,
     imageAlt: "Ambulance ready outside a clinic",
     theme: "hero-slide-wellness",
@@ -54,9 +62,16 @@ const slides = [
 
 function App() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [emergencyPhone, setEmergencyPhone] = useState("");
   const { language, setLanguage, t } = useLanguage();
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
   const isAppointmentPage = currentPath === "/appointment";
+  const doctorMatch = currentPath.match(/^\/doctors(?:\/([^/]+))?$/);
+  const isGalleryPage = currentPath === "/gallery";
+  const isNoticesPage = currentPath === "/notices";
+  const isServicesPage = currentPath === "/services";
+  const isFacilitiesPage = currentPath === "/facilities";
+  const isOffersPage = currentPath === "/offers";
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -66,17 +81,31 @@ function App() {
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
+    fetch(`${apiBaseUrl}/emergency-contact/`, { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => {
+        if (data?.phone_number) setEmergencyPhone(data.phone_number);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") setEmergencyPhone("");
+      });
+    return () => controller.abort();
+  }, []);
+
   const showSlide = (index) => {
     setActiveSlide((index + slides.length) % slides.length);
   };
 
   const slide = slides[activeSlide];
 
-  if (isAppointmentPage) {
+  if (isAppointmentPage || doctorMatch || isGalleryPage || isNoticesPage || isServicesPage || isFacilitiesPage || isOffersPage) {
     return (
       <>
         <Header />
-        <AppointmentPage />
+        {isAppointmentPage ? <AppointmentPage /> : doctorMatch ? <DoctorsPage slug={doctorMatch[1] ? decodeURIComponent(doctorMatch[1]) : null} /> : isGalleryPage ? <GalleryPage /> : isNoticesPage ? <NoticesPage /> : isServicesPage ? <ServicesPage /> : isFacilitiesPage ? <FacilitiesPage /> : <OffersPage />}
         <Footer />
         <FloatingContactTools language={language} setLanguage={setLanguage} />
       </>
@@ -118,14 +147,16 @@ function App() {
           </div>
         </section>
 
+        <HomeFeaturedNotices />
+
         <section className="location-emergency-section" aria-label="Doctor search and emergency support">
           <div className="location-cards">
-            <article className="location-card doctor-finder-card" id="doctors">
+            <article className="location-card doctor-finder-card" id="doctor-finder">
               <span className="location-icon doctor-icon" aria-hidden="true">✚</span>
               <p className="location-kicker">EXPERT CARE</p>
               <h2>{t("Find Your Doctor")}</h2>
               <p className="location-description">{t("Meet our caring medical team and find the right specialist for your needs.")}</p>
-              <a href="#doctors">{t("Find Healthcare Experts")} <span aria-hidden="true">→</span></a>
+              <a href="/doctors">{t("Find Healthcare Experts")} <span aria-hidden="true">→</span></a>
             </article>
 
           </div>
@@ -133,9 +164,9 @@ function App() {
           <article className="emergency-card">
             <span className="ambulance-icon" aria-hidden="true">✚</span>
             <p className="emergency-kicker">{t("HERE WHEN YOU NEED US")}</p>
-            <h2>{t("24/7 Ambulance Service")}</h2>
+            <h2>{t("24/7 Emergency Care")}</h2>
             <p>{t("For urgent medical help, our ambulance team is ready around the clock. Call for emergency assistance and we’ll help you get the care you need.")}</p>
-            <a href="tel:100" className="emergency-call">{t("Call for emergency help")} <span aria-hidden="true">→</span></a>
+            {emergencyPhone && <a href={`tel:${emergencyPhone.replace(/[^+\d]/g, "")}`} className="emergency-call">{emergencyPhone}</a>}
           </article>
         </section>
 
@@ -172,6 +203,7 @@ function App() {
       </main>
 
       <Footer />
+      <FirstVisitNoticePopup />
       <FloatingContactTools language={language} setLanguage={setLanguage} />
     </>
   );
