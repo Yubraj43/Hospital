@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import clinicReception from "../assets/clinic-reception.jpg";
 import { useLanguage } from "./LanguageContext";
+import { API_BASE_URL } from "../api";
 import "./ServicesPage.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
+
 
 function ServicesPage() {
   const [services, setServices] = useState([]);

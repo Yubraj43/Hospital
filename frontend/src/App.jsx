@@ -15,6 +15,7 @@ import ServicesPage from "./components/ServicesPage";
 import FacilitiesPage from "./components/FacilitiesPage";
 import OffersPage from "./components/OffersPage";
 import { useLanguage } from "./components/LanguageContext";
+import { API_BASE_URL } from "./api";
 import "./App.css";
 
 const slides = [
@@ -85,8 +86,7 @@ function App() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
-    fetch(`${apiBaseUrl}/emergency-contact/`, { signal: controller.signal })
+    fetch(`${API_BASE_URL}/emergency-contact/`, { signal: controller.signal })
       .then((response) => response.ok ? response.json() : null)
       .then((data) => {
         if (data?.phone_number) setEmergencyPhone(data.phone_number);

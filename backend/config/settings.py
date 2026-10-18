@@ -89,6 +89,21 @@ CORS_ALLOWED_ORIGINS = list(dict.fromkeys(
     _default_frontend_origins + _configured_frontend_origins
 ))
 
+_default_csrf_trusted_origins = [
+    "https://hospital-rose-nu.vercel.app",
+    "https://generous-embrace-production-042e.up.railway.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+_configured_csrf_trusted_origins = [
+    origin.strip().rstrip("/")
+    for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip().rstrip("/")
+]
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(
+    _default_csrf_trusted_origins + _configured_csrf_trusted_origins
+))
+
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle"],

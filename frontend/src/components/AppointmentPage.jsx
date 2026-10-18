@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "./LanguageContext";
+import { API_BASE_URL } from "../api";
 import "../App.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
+
 const PHONE_COUNTRY_CODES = [
   ["+977", "🇳🇵 Nepal"], ["+91", "🇮🇳 India"], ["+1", "🇺🇸 US / Canada"],
   ["+44", "🇬🇧 United Kingdom"], ["+61", "🇦🇺 Australia"], ["+971", "🇦🇪 UAE"],
@@ -46,10 +47,8 @@ function AppointmentPage() {
     if (submitting) return;
 
     const formData = new FormData(event.currentTarget);
-    const completePhone = `${phoneCountryCode}${phoneNumber}`;
-    const phoneDigitCount = completePhone.replace(/\D/g, "").length;
-    if (phoneDigitCount < 7 || phoneDigitCount > 16) {
-      setSubmitError(t("Enter a phone number with 7 to 16 digits, including the country code."));
+    if (!/^[0-9]{7,10}$/.test(phoneNumber)) {
+      setSubmitError(t("Enter a phone number with 7 to 10 digits. The country code is selected separately."));
       return;
     }
     setSubmitting(true);
@@ -61,7 +60,8 @@ function AppointmentPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           patient_name: String(formData.get("name") || "").trim(),
-          phone: completePhone,
+          phone: phoneNumber,
+          country_code: phoneCountryCode,
           email: String(formData.get("email") || "").trim(),
           age: formData.get("age") ? Number(formData.get("age")) : null,
           gender: String(formData.get("gender") || ""),
@@ -143,8 +143,11 @@ function AppointmentPage() {
                       type="tel"
                       inputMode="numeric"
                       autoComplete="tel-national"
+                      minLength={7}
+                      maxLength={10}
+                      pattern="[0-9]{7,10}"
                       value={phoneNumber}
-                      onChange={(event) => setPhoneNumber(event.target.value.replace(/\D/g, "").slice(0, 16 - phoneCountryCode.replace(/\D/g, "").length))}
+                      onChange={(event) => setPhoneNumber(event.target.value.replace(/\D/g, "").slice(0, 10))}
                       placeholder={t("Phone Number")}
                       aria-label={t("Phone Number")}
                       required

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "./LanguageContext";
+import { API_BASE_URL } from "../api";
 import "./OffersPage.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
+
 
 function OffersPage() {
   const [offers, setOffers] = useState([]);

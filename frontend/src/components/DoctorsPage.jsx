@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import clinicDoctor from "../assets/clinic-doctor.jpg";
 import { useLanguage } from "./LanguageContext";
+import { API_BASE_URL } from "../api";
 import "./DoctorsPage.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
+
 
 function DoctorsPage({ slug }) {
   const [doctors, setDoctors] = useState([]);
@@ -48,7 +49,12 @@ function DoctorsPage({ slug }) {
           ) : (
             <article className="doctor-profile-card">
               <div className="doctor-profile-photo-wrap">
-                <img className="doctor-profile-photo" src={doctor.photograph || clinicDoctor} alt={doctor.name} />
+                <img
+                  className="doctor-profile-photo"
+                  src={doctor.photograph || clinicDoctor}
+                  alt={doctor.name}
+                  onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = clinicDoctor; }}
+                />
               </div>
               <div className="doctor-profile-content">
                 <p className="doctors-eyebrow">{t("OUR MEDICAL TEAM")}</p>
@@ -95,7 +101,13 @@ function DoctorsPage({ slug }) {
             {doctors.map((item) => (
               <a className="doctor-card" href={`/doctors/${encodeURIComponent(item.slug)}`} key={item.id}>
                 <div className="doctor-card-photo-wrap">
-                  <img className="doctor-card-photo" src={item.photograph || clinicDoctor} alt={item.name} loading="lazy" />
+                  <img
+                    className="doctor-card-photo"
+                    src={item.photograph || clinicDoctor}
+                    alt={item.name}
+                    loading="lazy"
+                    onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = clinicDoctor; }}
+                  />
                 </div>
                 <div className="doctor-card-content">
                   <p className="doctors-eyebrow">{item.specialization || t("MEDICAL DOCTOR")}</p>

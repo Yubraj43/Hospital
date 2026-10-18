@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLanguage } from "./LanguageContext";
+import { API_BASE_URL } from "../api";
 import "./FirstVisitNoticePopup.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
+
 const DISMISSED_NOTICES_KEY = "sirjana-dismissed-notices";
 
 function FirstVisitNoticePopup() {
