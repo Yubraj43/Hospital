@@ -44,11 +44,11 @@ Configure `frontend/.env` from `frontend/.env.example` when running the Vite sit
 - `GET /api/gallery/`
 - `POST /api/appointments/`
 
-Appointment JSON accepts `patient_name`, `phone`, `appointment_date` (`YYYY-MM-DD`), and `preferred_time`; optional fields are `email`, `age`, `gender`, `doctor` (published doctor's slug), and `reason`. Requests are validated, limited to five per hour per anonymous client, saved in the database, and then emailed when email settings are configured. An email does not confirm a booked appointment; clinic staff must contact the patient.
+Appointment JSON accepts `patient_name`, `phone`, `appointment_date` (`YYYY-MM-DD`), and `preferred_time`; optional fields are `email`, `age`, `gender`, `doctor` (published doctor's slug), and `reason`. Requests are validated, limited to five per hour per anonymous client, saved in the database, and then emailed when email settings are configured. On Railway Trial/Hobby, configure Resend's HTTPS API because outbound SMTP is unavailable. An email does not confirm a booked appointment; clinic staff must contact the patient.
 
 ## Deployment configuration
 
-Use environment variables in the backend hosting provider. Configure a strong `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `DJANGO_ALLOWED_HOSTS`, and the exact deployed frontend origin in `FRONTEND_ORIGINS`. Set `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, and `DB_PORT` for PostgreSQL. The appointment recipient and Gmail SMTP host/port/sender are prefilled in `.env.example`; set `EMAIL_HOST_PASSWORD` to an authorized Gmail App Password (or use an approved mail provider's SMTP settings) to enable delivery. Google requires 2-Step Verification for App Passwords. Never put the App Password in React or commit it to Git; store it only in the backend `.env` for local use or the backend host's secret environment settings for deployment.
+Use environment variables in the backend hosting provider. Configure a strong `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `DJANGO_ALLOWED_HOSTS`, and the exact deployed frontend origin in `FRONTEND_ORIGINS`. Set `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, and `DB_PORT` for PostgreSQL. For Railway Trial/Hobby, set `RESEND_API_KEY` and `RESEND_FROM_EMAIL` using a sending-only Resend key and a verified sender address. On hosts that permit SMTP, set `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, and `EMAIL_USE_TLS`. Never put mail credentials in React or commit them; store them only in backend secret settings.
 
 Never commit `.env`, database credentials, SMTP passwords, or real patient data. Create staff accounts through Django admin/user management and grant only the permissions each staff member needs. Configure persistent media storage for doctor photos, offers, notices, and gallery images before production deployment.
 
@@ -62,7 +62,7 @@ Create a Railway project from the GitHub repository, then configure its Django s
 4. Set the start command to `bash railway-start.sh`. It applies migrations, creates the configured superuser if missing, and starts Gunicorn on Railway's assigned port.
 5. Generate a public domain, then set `DJANGO_ALLOWED_HOSTS` to that exact host without `https://` or a trailing slash.
 6. Add a persistent volume mounted at `/app/media`, and set `MEDIA_ROOT=/app/media` so uploaded photos and documents survive restarts.
-7. Set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `FRONTEND_ORIGINS=https://hospital-rose-nu.vercel.app`, `DJANGO_SUPERUSER_USERNAME`, `DJANGO_SUPERUSER_PASSWORD`, and `DJANGO_SUPERUSER_EMAIL`. Add the SMTP environment variables from the section above if appointment email notifications are needed. Enter secrets directly in Railway; do not commit them.
+7. Set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `FRONTEND_ORIGINS=https://hospital-rose-nu.vercel.app`, `DJANGO_SUPERUSER_USERNAME`, `DJANGO_SUPERUSER_PASSWORD`, and `DJANGO_SUPERUSER_EMAIL`. For appointment email notifications on Trial/Hobby, add `RESEND_API_KEY` and `RESEND_FROM_EMAIL` in Railway after setting up Resend and verifying the sender domain. Enter secrets directly in Railway; do not commit them.
 8. Confirm `https://<railway-domain>/api/health/` returns `{"status":"ok"}` before changing Vercel's `VITE_API_BASE_URL` to `https://<railway-domain>/api` and redeploying the frontend.
 
 The Railway database starts empty. Existing Render records and uploaded files are not copied by this deployment setup.

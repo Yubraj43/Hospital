@@ -1,4 +1,7 @@
+import json
 import logging
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -113,8 +116,8 @@ class AppointmentCreateView(APIView):
         clinic_email = settings.APPOINTMENT_NOTIFICATION_EMAIL
         email_sent = False
         email_error = ""
-        if not clinic_email or not settings.EMAIL_HOST:
-            email_error = "The clinic recipient email and SMTP delivery settings have not been configured yet."
+        if not clinic_email:
+            email_error = "The clinic recipient email has not been configured."
         else:
             doctor_name = appointment.doctor.name if appointment.doctor else "No doctor selected"
             subject = "New Appointment Request – Sirjana Advanced Polyclinic"
@@ -133,24 +136,59 @@ class AppointmentCreateView(APIView):
                 "",
                 "This is a request only. Please contact the patient to confirm availability.",
             ])
-            try:
-                sent_count = send_mail(
-                    subject,
-                    body,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [clinic_email],
-                    fail_silently=False,
-                )
-                email_sent = sent_count == 1
-                if not email_sent:
-                    email_error = "The mail service did not accept the notification."
-            except Exception as exc:
-                logger.exception("Appointment notification email failed for request %s", appointment.pk)
-                # Keep SMTP diagnostics in the staff-only appointment record so
-                # the clinic can identify configuration and provider errors.
-                # The public API response below remains generic and never leaks
-                # SMTP details to patients.
-                email_error = f"SMTP delivery failed: {exc}"[:240]
+            if settings.RESEND_API_KEY:
+                if not settings.RESEND_FROM_EMAIL:
+                    email_error = "Set RESEND_FROM_EMAIL to a sender address verified with Resend."
+                else:
+                    payload = json.dumps({
+                        "from": settings.RESEND_FROM_EMAIL,
+                        "to": [clinic_email],
+                        "subject": subject,
+                        "text": body,
+                    }).encode("utf-8")
+                    api_request = Request(
+                        "https://api.resend.com/emails",
+                        data=payload,
+                        headers={
+                            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+                            "Content-Type": "application/json",
+                        },
+                        method="POST",
+                    )
+                    try:
+                        with urlopen(api_request, timeout=15) as response:
+                            email_sent = response.status in (200, 201, 202)
+                            if not email_sent:
+                                email_error = f"Resend API returned HTTP {response.status}."
+                    except HTTPError as exc:
+                        detail = exc.read().decode("utf-8", errors="replace")
+                        logger.warning(
+                            "Resend rejected appointment email for request %s: %s",
+                            appointment.pk,
+                            detail,
+                        )
+                        email_error = f"Resend rejected the notification (HTTP {exc.code}): {detail}"[:240]
+                    except (URLError, TimeoutError, OSError) as exc:
+                        logger.exception("Resend request failed for appointment %s", appointment.pk)
+                        email_error = f"Could not reach Resend API: {exc}"[:240]
+            elif not settings.EMAIL_HOST:
+                email_error = "Set RESEND_API_KEY or use SMTP on a Railway plan that permits SMTP."
+            else:
+                try:
+                    sent_count = send_mail(
+                        subject,
+                        body,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [clinic_email],
+                        fail_silently=False,
+                    )
+                    email_sent = sent_count == 1
+                    if not email_sent:
+                        email_error = "The mail service did not accept the notification."
+                except Exception as exc:
+                    logger.exception("Appointment notification email failed for request %s", appointment.pk)
+                    # Keep transport diagnostics staff-only; public responses do not expose them.
+                    email_error = f"Email delivery failed: {exc}"[:240]
 
         appointment.email_sent = email_sent
         appointment.email_error = email_error
