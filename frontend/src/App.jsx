@@ -65,7 +65,7 @@ function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   // Keep the clinic's current emergency number visible while the API loads or
   // if a temporary network/CORS issue prevents the request from completing.
-  const [emergencyPhone, setEmergencyPhone] = useState("9816812191");
+  const [emergencyPhone, setEmergencyPhone] = useState("+9779714548880");
   const { language, setLanguage, t } = useLanguage();
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
   const isAppointmentPage = currentPath === "/appointment";
