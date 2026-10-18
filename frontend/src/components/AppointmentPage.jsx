@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "./LanguageContext";
 import "../App.css";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api").replace(/\/$/, "");
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
 
 function AppointmentPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -93,7 +93,7 @@ function AppointmentPage() {
               <h2>{t(emailSent ? "Thank you for reaching out." : "Request saved — please call the clinic.")}</h2>
               <p>{t(emailSent
                 ? "Your appointment request was received. The clinic will contact you to confirm a time."
-                : "Your request was saved, but email delivery is not ready yet. Please call the clinic to confirm receipt.")}</p>
+                : "Your request was saved, but the clinic couldn't be emailed. Please call to confirm it was received.")}</p>
               <a href="/">{t("Return to home")}</a>
             </div>
           ) : (

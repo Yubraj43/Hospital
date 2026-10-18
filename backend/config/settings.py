@@ -85,8 +85,8 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {"anon": "120/hour", "appointments": "5/hour"},
 }
 
-APPOINTMENT_NOTIFICATION_EMAIL = os.environ.get("APPOINTMENT_NOTIFICATION_EMAIL", "sirjanapolyclinic@gmail.com").strip()
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "sirjanapolyclinic@gmail.com")
+APPOINTMENT_NOTIFICATION_EMAIL = os.environ.get("APPOINTMENT_NOTIFICATION_EMAIL", "clinicsirjana@gmail.com").strip()
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "clinicsirjana@gmail.com")
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
