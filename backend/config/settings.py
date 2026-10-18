@@ -81,9 +81,9 @@ _default_frontend_origins = [
     "http://127.0.0.1:5173",
 ]
 _configured_frontend_origins = [
-    origin.strip()
+    origin.strip().rstrip("/")
     for origin in os.environ.get("FRONTEND_ORIGINS", "").split(",")
-    if origin.strip()
+    if origin.strip().rstrip("/")
 ]
 CORS_ALLOWED_ORIGINS = list(dict.fromkeys(
     _default_frontend_origins + _configured_frontend_origins
