@@ -476,6 +476,30 @@
 
 .appointment-field { display: block; flex: 1; }
 
+.appointment-field-label {
+  display: block;
+  margin: 0 0 8px;
+  color: #344b5a;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.phone-input-group {
+  display: flex;
+  min-width: 0;
+  gap: 8px;
+}
+
+.appointment-form .phone-input-group select {
+  flex: 0 0 44%;
+  min-width: 122px;
+  padding-right: 8px;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.appointment-form .phone-input-group input { min-width: 0; }
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -786,6 +810,7 @@
   .appointment-form input,
   .appointment-form select,
   .appointment-form textarea { min-height: 60px; }
+  .appointment-form .phone-input-group select { flex-basis: 42%; min-width: 112px; padding: 12px 7px; font-size: 13px; }
 
   .appointment-form .branch-field select { min-height: 62px; }
 

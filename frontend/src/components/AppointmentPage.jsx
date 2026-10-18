@@ -3,6 +3,10 @@ import { useLanguage } from "./LanguageContext";
 import "../App.css";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://sirjana-hospital-backend.onrender.com/api").replace(/\/$/, "");
+const PHONE_COUNTRY_CODES = [
+  ["+977", "🇳🇵 Nepal"], ["+91", "🇮🇳 India"], ["+1", "🇺🇸 US / Canada"],
+  ["+44", "🇬🇧 United Kingdom"], ["+61", "🇦🇺 Australia"], ["+971", "🇦🇪 UAE"],
+];
 
 function AppointmentPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -13,6 +17,8 @@ function AppointmentPage() {
   const [doctorSlug, setDoctorSlug] = useState(() => new URLSearchParams(window.location.search).get("doctor") || "");
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
+  const [phoneCountryCode, setPhoneCountryCode] = useState("+977");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [clinicClock, setClinicClock] = useState(getClinicClock);
   const { t } = useLanguage();
 
@@ -40,6 +46,12 @@ function AppointmentPage() {
     if (submitting) return;
 
     const formData = new FormData(event.currentTarget);
+    const completePhone = `${phoneCountryCode}${phoneNumber}`;
+    const phoneDigitCount = completePhone.replace(/\D/g, "").length;
+    if (phoneDigitCount < 7 || phoneDigitCount > 16) {
+      setSubmitError(t("Enter a phone number with 7 to 16 digits, including the country code."));
+      return;
+    }
     setSubmitting(true);
     setSubmitError("");
 
@@ -49,7 +61,7 @@ function AppointmentPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           patient_name: String(formData.get("name") || "").trim(),
-          phone: String(formData.get("phone") || "").trim(),
+          phone: completePhone,
           email: String(formData.get("email") || "").trim(),
           age: formData.get("age") ? Number(formData.get("age")) : null,
           gender: String(formData.get("gender") || ""),
@@ -120,9 +132,24 @@ function AppointmentPage() {
               </div>
 
               <div className="appointment-form-row">
-                <label className="appointment-field">
-                  <span className="visually-hidden">{t("Phone Number")}</span>
-                  <input name="phone" type="tel" autoComplete="tel" placeholder={t("Phone Number")} required />
+                <label className="appointment-field phone-field">
+                  <span className="appointment-field-label">{t("Phone Number")}</span>
+                  <span className="phone-input-group">
+                    <select aria-label={t("Country code")} value={phoneCountryCode} onChange={(event) => setPhoneCountryCode(event.target.value)}>
+                      {PHONE_COUNTRY_CODES.map(([code, country]) => <option key={code} value={code}>{code} {country}</option>)}
+                    </select>
+                    <input
+                      name="phone"
+                      type="tel"
+                      inputMode="numeric"
+                      autoComplete="tel-national"
+                      value={phoneNumber}
+                      onChange={(event) => setPhoneNumber(event.target.value.replace(/\D/g, "").slice(0, 16 - phoneCountryCode.replace(/\D/g, "").length))}
+                      placeholder={t("Phone Number")}
+                      aria-label={t("Phone Number")}
+                      required
+                    />
+                  </span>
                 </label>
                 <label className="appointment-field">
                   <span className="visually-hidden">{t("Email (optional)")}</span>
@@ -140,11 +167,11 @@ function AppointmentPage() {
 
               <div className="appointment-form-row">
                 <label className="appointment-field">
-                  <span className="visually-hidden">{t("Preferred date")}</span>
+                  <span className="appointment-field-label">{t("Preferred date")}</span>
                   <input name="date" type="date" min={minimumDate} value={appointmentDate} onChange={(event) => { setAppointmentDate(event.target.value); setAppointmentTime(""); }} required />
                 </label>
                 <label className="appointment-field">
-                  <span className="visually-hidden">{t("Appointment time")}</span>
+                  <span className="appointment-field-label">{t("Appointment time")}</span>
                   <input name="time" type="time" min={appointmentDate === minimumDate ? minimumTime : "00:00"} value={appointmentTime} onChange={(event) => setAppointmentTime(event.target.value)} required />
                 </label>
               </div>
