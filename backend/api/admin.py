@@ -79,8 +79,18 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 @admin.register(PatientReview)
 class PatientReviewAdmin(admin.ModelAdmin):
-    list_display = ("name", "rating", "is_published", "submitted_at")
+    list_display = ("name", "rating", "review_preview", "is_published", "submitted_at")
     list_filter = ("is_published", "rating", "submitted_at")
     search_fields = ("name", "review")
+    list_editable = ("is_published",)
+    list_display_links = ("name",)
     readonly_fields = ("submitted_at",)
     ordering = ("-submitted_at",)
+    fieldsets = (
+        ("Patient review", {"fields": ("name", "rating", "review")}),
+        ("Publication", {"fields": ("publication_consent", "is_published", "submitted_at")}),
+    )
+
+    @admin.display(description="Review")
+    def review_preview(self, obj):
+        return obj.review[:100] + ("…" if len(obj.review) > 100 else "")
