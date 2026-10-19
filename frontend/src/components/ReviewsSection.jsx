@@ -73,12 +73,36 @@ function ReviewsSection() {
             {t("Your name")}
             <input required minLength={2} maxLength={80} value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} autoComplete="name" />
           </label>
-          <label>
-            {t("Rating")}
-            <select value={form.rating} onChange={(event) => setForm({ ...form, rating: event.target.value })}>
-              {[5, 4, 3, 2, 1].map((rating) => <option key={rating} value={rating}>{rating} {t("stars")}</option>)}
-            </select>
-          </label>
+          <fieldset className="reviews-rating-field">
+            <legend>{t("Your rating")}</legend>
+            <div className="reviews-rating-stars" role="radiogroup" aria-label={t("Choose a star rating")}>
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <button
+                  key={rating}
+                  type="button"
+                  className={`reviews-rating-star ${rating <= Number(form.rating) ? "selected" : ""}`}
+                  role="radio"
+                  aria-checked={Number(form.rating) === rating}
+                  aria-label={`${rating} ${t("stars")}`}
+                  onClick={() => setForm({ ...form, rating: String(rating) })}
+                  onKeyDown={(event) => {
+                    if (event.key === "ArrowRight" || event.key === "ArrowUp") {
+                      event.preventDefault();
+                      setForm({ ...form, rating: String(Math.min(5, rating + 1)) });
+                      event.currentTarget.parentElement.querySelector(`[aria-label="${Math.min(5, rating + 1)} ${t("stars")}"]`)?.focus();
+                    } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
+                      event.preventDefault();
+                      setForm({ ...form, rating: String(Math.max(1, rating - 1)) });
+                      event.currentTarget.parentElement.querySelector(`[aria-label="${Math.max(1, rating - 1)} ${t("stars")}"]`)?.focus();
+                    }
+                  }}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+            <span className="reviews-rating-label">{form.rating} {t("stars")}</span>
+          </fieldset>
           <label>
             {t("Your review")}
             <textarea required minLength={10} maxLength={700} rows={4} value={form.review} onChange={(event) => setForm({ ...form, review: event.target.value })} placeholder={t("Please avoid sharing private medical details.")} />

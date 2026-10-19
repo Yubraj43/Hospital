@@ -12,6 +12,15 @@
 .reviews-form input, .reviews-form select, .reviews-form textarea { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #d7e1e5; border-radius: 7px; background: #fff; color: #263d4d; font: inherit; font-size: 14px; }
 .reviews-form textarea { resize: vertical; line-height: 1.55; }
 .reviews-form input:focus, .reviews-form select:focus, .reviews-form textarea:focus { outline: 3px solid #149d9229; border-color: #149d92; }
+.reviews-rating-field { display: flex; align-items: center; gap: 12px; margin: 0; padding: 0; border: 0; }
+.reviews-rating-field legend { float: left; margin-right: 4px; color: #344b5a; font-size: 13px; font-weight: 700; }
+.reviews-rating-stars { display: inline-flex; align-items: center; gap: 2px; }
+.reviews-rating-star { padding: 0 2px; border: 0; background: transparent; color: #cbd5da; font-size: 28px; line-height: 1; cursor: pointer; transition: color .15s ease, transform .15s ease; }
+.reviews-rating-star.selected, .reviews-rating-stars:hover .reviews-rating-star { color: #e5a323; }
+.reviews-rating-star:hover { transform: scale(1.12); }
+.reviews-rating-stars:hover .reviews-rating-star:hover ~ .reviews-rating-star { color: #cbd5da; }
+.reviews-rating-star:focus-visible { outline: 2px solid #149d92; outline-offset: 2px; border-radius: 3px; }
+.reviews-rating-label { color: #687783; font-size: 12px; }
 .reviews-privacy-note { margin: -3px 0 0; color: #6d7d87; font-size: 12px; line-height: 1.55; }
 .reviews-consent { display: grid !important; grid-template-columns: 18px 1fr; gap: 9px !important; align-items: start; color: #586b76 !important; font-size: 12px !important; font-weight: 500 !important; line-height: 1.5; }
 .reviews-consent input { width: 16px; min-height: 16px; height: 16px; margin: 1px 0 0; padding: 0; accent-color: #d91e2a; }

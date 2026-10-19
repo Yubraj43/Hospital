@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import pregnancyBanner from "./assets/pregnancy-care-banner.png";
 import clinicReception from "./assets/clinic-reception.jpg";
 import clinicDoctor from "./assets/clinic-doctor.jpg";
-import clinicAmbulance from "./assets/clinic-ambulance.jpg";
+import clinicAmbulance from "./assets/services/nepal-emergency-care.png";
 import AppointmentPage from "./components/AppointmentPage";
 import DoctorsPage from "./components/DoctorsPage";
 import GalleryPage from "./components/GalleryPage";
