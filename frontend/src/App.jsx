@@ -5,7 +5,7 @@ import pregnancyBanner from "./assets/pregnancy-care-banner.png";
 import clinicReception from "./assets/clinic-reception.jpg";
 import clinicDoctor from "./assets/clinic-doctor.jpg";
 import clinicAmbulance from "./assets/services/nepal-emergency-care.png";
-import doctorIcon from "./assets/doctor-icon.png";
+import doctorIcon from "./assets/doctor-icon-nepal.jpg";
 import AppointmentPage from "./components/AppointmentPage";
 import DoctorsPage from "./components/DoctorsPage";
 import GalleryPage from "./components/GalleryPage";
