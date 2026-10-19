@@ -680,7 +680,7 @@
   .hero-slide-family .hero-shade,
   .hero-slide-wellness .hero-shade { background: linear-gradient(0deg, #103746 0%, #103746e8 38%, #10374658 78%, #10374620 100%); }
   .hero-slide-pregnancy { min-height: 0; height: clamp(520px, 128vw, 680px); align-items: flex-end; background: #a95670; }
-  .hero-slide-pregnancy .hero-photo { inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: 66% center; background: #a95670; }
+  .hero-slide-pregnancy .hero-photo { inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: 84% center; background: #a95670; }
   .hero-slide-pregnancy .hero-shade { background: linear-gradient(90deg, #863b5bd9 0%, #963f62ad 48%, #8f3e5d40 100%), linear-gradient(0deg, #7d3457a8 0%, transparent 75%); }
   .hero-slide-pregnancy .hero-copy { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; width: auto; padding: 42px 28px 52px; background: transparent; }
   .hero-slide-pregnancy .hero-copy .welcome-label { margin-bottom: 7px; font-size: 9px; }

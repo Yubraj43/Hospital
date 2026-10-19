@@ -16,12 +16,12 @@ function Footer() {
 
         <div className="footer-column">
           <h3>{t("Explore")}</h3>
-          <span>{t("Specialities")}</span>
-          <span>{t("Doctors")}</span>
-          <span>{t("Medical Facilities")}</span>
-          <span>{t("Insurance")}</span>
-          <span>{t("Packages/Offers")}</span>
-          <span>{t("Careers")}</span>
+          <a href="/services">{t("Our Services")}</a>
+          <a href="/doctors">{t("Doctors")}</a>
+          <a href="/facilities">{t("Medical Facilities")}</a>
+          <a href="/offers">{t("Packages and Offers")}</a>
+          <a href="/gallery">{t("Gallery")}</a>
+          <a href="/notices">{t("Notice")}</a>
         </div>
 
         <div className="footer-column">
@@ -48,7 +48,7 @@ function Footer() {
             <a href="#contact" aria-label={t("Instagram")}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle className="social-icon-dot" cx="17.7" cy="6.7" r="1" /></svg>
             </a>
-            <a href="#contact" aria-label={t("TikTok")}>
+            <a href="https://vm.tiktok.com/ZS9Ux6MBUTxrK-r3W1B/" aria-label={t("TikTok")}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.7 3c.3 2.1 1.5 3.4 3.5 3.6v3.2a8 8 0 0 1-3.5-1v6.6a5.7 5.7 0 1 1-5.7-5.7c.4 0 .8 0 1.2.1v3.4a2.7 2.7 0 1 0 1.5 2.4V3h3Z" /></svg>
             </a>
           </div>
