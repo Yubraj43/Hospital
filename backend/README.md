@@ -13,7 +13,7 @@ python -m pip install -r backend/requirements.txt
 Copy-Item backend/.env.example backend/.env
 ```
 
-Set local environment values in PowerShell before starting (or use your preferred environment-variable loader). Leaving `DATABASE_URL` empty uses local SQLite:
+Set local environment values in PowerShell before starting (or use your preferred environment-variable loader). Leaving `DATABASE_URL` empty uses local SQLite. To use local MySQL instead, start the MySQL server and set `DATABASE_URL` in `backend/.env` to `mysql://hospital_app:your-local-password@127.0.0.1:3306/hospital_app?charset=utf8mb4`; keep real credentials only in `.env`, never in Git. The app config selects MySQL when this URL is present.
 
 ```powershell
 $env:DJANGO_DEBUG = "true"
