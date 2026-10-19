@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):
-    help = "Create a Django superuser using environment variables"
+    help = "Create or update the deployment superuser from environment variables"
 
     def handle(self, *args, **options):
         User = get_user_model()
@@ -28,22 +28,20 @@ class Command(BaseCommand):
                 "environment variables."
             )
 
-        if User.objects.filter(username=username).exists():
-            self.stdout.write(
-                self.style.WARNING(
-                    f"User '{username}' already exists. No changes made."
-                )
-            )
-            return
-
-        user = User.objects.create_superuser(
+        user, created = User.objects.get_or_create(
             username=username,
-            email=email,
-            password=password,
+            defaults={"email": email, "is_staff": True, "is_superuser": True},
         )
+        user.email = email or user.email
+        user.is_active = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.set_password(password)
+        user.save()
 
+        action = "created" if created else "updated"
         self.stdout.write(
             self.style.SUCCESS(
-                f"Superuser '{user.username}' created successfully."
+                f"Deployment superuser '{user.username}' {action} successfully."
             )
         )
