@@ -1,0 +1,43 @@
+.reviews-section { padding: 76px 32px 82px; background: #fff; }
+.reviews-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(330px, .92fr); gap: clamp(32px, 6vw, 82px); align-items: start; width: min(1240px, 100%); margin: 0 auto; }
+.reviews-copy { position: sticky; top: 120px; max-width: 560px; padding-top: 12px; }
+.reviews-kicker { margin: 0 0 12px; color: #d91e2a; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; }
+.reviews-copy h2 { margin: 0; color: #213848; font-size: clamp(34px, 4vw, 48px); line-height: 1.15; }
+.reviews-copy > p:not(.reviews-kicker) { max-width: 520px; margin: 16px 0 0; color: #687783; font-size: 16px; line-height: 1.75; }
+.reviews-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; color: #d91e2a; font-size: 14px; font-weight: 750; text-decoration: none; }
+.reviews-link:hover { text-decoration: underline; }
+.reviews-form { display: flex; flex-direction: column; gap: 14px; padding: 28px; border: 1px solid #e4ecef; border-radius: 16px; background: linear-gradient(145deg, #f5fbfa 0%, #fff 76%); box-shadow: 0 14px 38px #173b5010; }
+.reviews-form h3 { margin: 0 0 2px; color: #213848; font-size: 21px; }
+.reviews-form label { display: flex; flex-direction: column; gap: 7px; color: #344b5a; font-size: 13px; font-weight: 700; }
+.reviews-form input, .reviews-form select, .reviews-form textarea { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #d7e1e5; border-radius: 7px; background: #fff; color: #263d4d; font: inherit; font-size: 14px; }
+.reviews-form textarea { resize: vertical; line-height: 1.55; }
+.reviews-form input:focus, .reviews-form select:focus, .reviews-form textarea:focus { outline: 3px solid #149d9229; border-color: #149d92; }
+.reviews-privacy-note { margin: -3px 0 0; color: #6d7d87; font-size: 12px; line-height: 1.55; }
+.reviews-consent { display: grid !important; grid-template-columns: 18px 1fr; gap: 9px !important; align-items: start; color: #586b76 !important; font-size: 12px !important; font-weight: 500 !important; line-height: 1.5; }
+.reviews-consent input { width: 16px; min-height: 16px; height: 16px; margin: 1px 0 0; padding: 0; accent-color: #d91e2a; }
+.reviews-google-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 9px; margin-top: 2px; padding: 12px 16px; border: 0; border-radius: 7px; background: #d91e2a; color: #fff; font-size: 14px; font-weight: 750; text-decoration: none; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.reviews-google-link:hover:not(:disabled) { background: #b81722; transform: translateY(-1px); }
+.reviews-google-link:disabled { cursor: wait; opacity: .7; }
+.reviews-form-message { margin: 0; padding: 10px 12px; border-radius: 7px; font-size: 13px; line-height: 1.5; }
+.reviews-form-error { border: 1px solid #f1b8bc; background: #fff4f4; color: #a71925; }
+.reviews-form-success { border: 1px solid #b9e4d9; background: #effaf6; color: #17664f; }
+.reviews-list-wrap { width: min(1240px, 100%); margin: 52px auto 0; }
+.reviews-list-wrap > h3 { margin: 0 0 18px; color: #213848; font-size: 22px; }
+.reviews-empty { margin: 0; padding: 20px; border: 1px dashed #d8e3e7; border-radius: 10px; color: #687783; font-size: 14px; line-height: 1.6; }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.patient-review-card { min-width: 0; padding: 22px; border: 1px solid #e4ecef; border-radius: 12px; background: #fff; box-shadow: 0 8px 24px #173b5009; }
+.patient-review-stars { color: #e5a323; font-size: 17px; letter-spacing: 2px; }
+.patient-review-card > p { margin: 13px 0 19px; color: #51636f; font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.patient-review-card footer { color: #213848; font-size: 13px; font-weight: 750; }
+.reviews-link:focus-visible, .reviews-google-link:focus-visible { outline: 3px solid #149d92; outline-offset: 3px; }
+
+@media (max-width: 760px) {
+  .reviews-section { padding: 54px 20px 60px; }
+  .reviews-content { grid-template-columns: 1fr; gap: 24px; }
+  .reviews-copy { position: static; padding-top: 0; }
+  .reviews-copy h2 { font-size: 34px; }
+  .reviews-copy > p:not(.reviews-kicker) { font-size: 15px; }
+  .reviews-form { padding: 23px 20px; }
+  .reviews-list-wrap { margin-top: 38px; }
+  .reviews-grid { grid-template-columns: 1fr; }
+}
