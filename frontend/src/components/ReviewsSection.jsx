@@ -8,6 +8,7 @@ const clinicMapsUrl = "https://www.google.com/maps/search/?api=1&query=Sirjana+A
 function ReviewsSection() {
   const { t } = useLanguage();
   const [reviews, setReviews] = useState([]);
+  const [showAllReviews, setShowAllReviews] = useState(false);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -21,6 +22,13 @@ function ReviewsSection() {
     review: "",
     publication_consent: false,
   });
+
+  const orderedReviews = [...reviews].sort((first, second) => {
+    const firstTime = Date.parse(first.submitted_at || "") || 0;
+    const secondTime = Date.parse(second.submitted_at || "") || 0;
+    return secondTime - firstTime;
+  });
+  const visibleReviews = showAllReviews ? orderedReviews : orderedReviews.slice(0, 6);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -89,7 +97,7 @@ function ReviewsSection() {
         )}
         {!loading && !loadError && reviews.length > 0 && (
           <div className="reviews-grid">
-            {reviews.map((review) => (
+            {visibleReviews.map((review) => (
               <article className="patient-review-card" key={review.id}>
                 <div className="patient-review-stars" aria-label={`${review.rating} ${t("out of 5 stars")}`}>
                   <span aria-hidden="true">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</span>
@@ -100,6 +108,17 @@ function ReviewsSection() {
               </article>
             ))}
           </div>
+        )}
+        {!loading && !loadError && reviews.length > 6 && (
+          <button
+            type="button"
+            className="reviews-toggle"
+            aria-expanded={showAllReviews}
+            onClick={() => setShowAllReviews((expanded) => !expanded)}
+          >
+            {showAllReviews ? t("Show fewer reviews") : t("See more reviews")}
+            <span aria-hidden="true">{showAllReviews ? "↑" : "↓"}</span>
+          </button>
         )}
       </div>
 
