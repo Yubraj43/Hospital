@@ -228,3 +228,20 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.patient_name} — {self.appointment_date}"
+
+
+class PatientReview(models.Model):
+    name = models.CharField(max_length=80)
+    rating = models.PositiveSmallIntegerField(choices=[(value, f"{value} star{'s' if value != 1 else ''}") for value in range(1, 6)])
+    review = models.CharField(max_length=700)
+    publication_consent = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, db_index=True)
+    submitted_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ("-submitted_at",)
+        verbose_name = "patient review"
+        verbose_name_plural = "patient reviews"
+
+    def __str__(self):
+        return f"{self.name} — {self.rating}/5"

@@ -3,7 +3,7 @@ from datetime import datetime
 import re
 from rest_framework import serializers
 
-from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, Service
+from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, PatientReview, Service
 
 
 class EmergencyContactSettingsSerializer(serializers.ModelSerializer):
@@ -55,6 +55,30 @@ class GalleryImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GalleryImage
         fields = ("id", "title", "description", "image", "category")
+
+
+class PatientReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PatientReview
+        fields = ("id", "name", "rating", "review", "publication_consent", "submitted_at")
+        read_only_fields = ("id", "submitted_at")
+
+    def validate_publication_consent(self, value):
+        if not value:
+            raise serializers.ValidationError("Please agree before submitting a review.")
+        return value
+
+    def validate_name(self, value):
+        value = " ".join(value.split())
+        if len(value) < 2:
+            raise serializers.ValidationError("Enter a name with at least 2 characters.")
+        return value
+
+    def validate_review(self, value):
+        value = " ".join(value.split())
+        if len(value) < 10:
+            raise serializers.ValidationError("Please write at least 10 characters.")
+        return value
 
 
 class AppointmentRequestSerializer(serializers.ModelSerializer):

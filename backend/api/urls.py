@@ -12,6 +12,7 @@ from .views import (
     HealthCheckView,
     NoticeListView,
     OfferListView,
+    PatientReviewListCreateView,
     ServiceListView,
 )
 
@@ -27,5 +28,6 @@ urlpatterns = [
     path("notices/featured/", FeaturedNoticeView.as_view(), name="featured-notice"),
     path("notices/first-visit/", FirstVisitNoticeView.as_view(), name="first-visit-notice"),
     path("gallery/", GalleryListView.as_view(), name="gallery-list"),
+    path("reviews/", PatientReviewListCreateView.as_view(), name="patient-review-list-create"),
     path("appointments/", AppointmentCreateView.as_view(), name="appointment-create"),
 ]

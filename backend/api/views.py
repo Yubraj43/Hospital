@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
 
-from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, Service
+from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, PatientReview, Service
 from .serializers import (
     AppointmentRequestSerializer,
     DoctorSerializer,
@@ -22,6 +22,7 @@ from .serializers import (
     GalleryImageSerializer,
     NoticeSerializer,
     OfferSerializer,
+    PatientReviewSerializer,
     ServiceSerializer,
 )
 
@@ -98,6 +99,17 @@ class FirstVisitNoticeView(NoticeListView):
 class GalleryListView(PublicListView):
     serializer_class = GalleryImageSerializer
     queryset = GalleryImage.objects.filter(is_published=True)
+
+
+class PatientReviewListCreateView(generics.ListCreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = PatientReviewSerializer
+
+    def get_queryset(self):
+        return PatientReview.objects.filter(is_published=True)
+
+    def perform_create(self, serializer):
+        serializer.save(is_published=False)
 
 
 class AppointmentRateThrottle(AnonRateThrottle):

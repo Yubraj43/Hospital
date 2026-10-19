@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, Service
+from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, PatientReview, Service
 
 
 @admin.register(EmergencyContactSettings)
@@ -75,3 +75,12 @@ class AppointmentAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "email_sent", "email_error")
     date_hierarchy = "created_at"
     ordering = ("-created_at",)
+
+
+@admin.register(PatientReview)
+class PatientReviewAdmin(admin.ModelAdmin):
+    list_display = ("name", "rating", "is_published", "submitted_at")
+    list_filter = ("is_published", "rating", "submitted_at")
+    search_fields = ("name", "review")
+    readonly_fields = ("submitted_at",)
+    ordering = ("-submitted_at",)

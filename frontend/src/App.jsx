@@ -14,6 +14,8 @@ import HomeFeaturedNotices from "./components/HomeFeaturedNotices";
 import ServicesPage from "./components/ServicesPage";
 import FacilitiesPage from "./components/FacilitiesPage";
 import OffersPage from "./components/OffersPage";
+import ReviewsSection from "./components/ReviewsSection";
+import { clinicServices } from "./components/servicesCatalog";
 import { useLanguage } from "./components/LanguageContext";
 import { API_BASE_URL } from "./api";
 import "./App.css";
@@ -72,7 +74,7 @@ function App() {
   const doctorMatch = currentPath.match(/^\/doctors(?:\/([^/]+))?$/);
   const isGalleryPage = currentPath === "/gallery";
   const isNoticesPage = currentPath === "/notices";
-  const isServicesPage = currentPath === "/services";
+  const serviceMatch = currentPath.match(/^\/services(?:\/([^/]+))?$/);
   const isFacilitiesPage = currentPath === "/facilities";
   const isOffersPage = currentPath === "/offers";
 
@@ -103,11 +105,11 @@ function App() {
 
   const slide = slides[activeSlide];
 
-  if (isAppointmentPage || doctorMatch || isGalleryPage || isNoticesPage || isServicesPage || isFacilitiesPage || isOffersPage) {
+  if (isAppointmentPage || doctorMatch || isGalleryPage || isNoticesPage || serviceMatch || isFacilitiesPage || isOffersPage) {
     return (
       <>
         <Header />
-        {isAppointmentPage ? <AppointmentPage /> : doctorMatch ? <DoctorsPage slug={doctorMatch[1] ? decodeURIComponent(doctorMatch[1]) : null} /> : isGalleryPage ? <GalleryPage /> : isNoticesPage ? <NoticesPage /> : isServicesPage ? <ServicesPage /> : isFacilitiesPage ? <FacilitiesPage /> : <OffersPage />}
+        {isAppointmentPage ? <AppointmentPage /> : doctorMatch ? <DoctorsPage slug={doctorMatch[1] ? decodeURIComponent(doctorMatch[1]) : null} /> : isGalleryPage ? <GalleryPage /> : isNoticesPage ? <NoticesPage /> : serviceMatch ? <ServicesPage slug={serviceMatch[1] ? decodeURIComponent(serviceMatch[1]) : null} /> : isFacilitiesPage ? <FacilitiesPage /> : <OffersPage />}
         <Footer />
         <FloatingContactTools language={language} setLanguage={setLanguage} />
       </>
@@ -192,15 +194,19 @@ function App() {
             <p>{t("Essential care and diagnostic services, together in one convenient clinic.")}</p>
           </div>
           <div className="medical-facilities-grid">
-            {["24/7 Emergency Care", "Outpatient Department (OPD)", "Laboratory", "Pharmacy", "X-Ray", "Ultrasound (USG)"].map((facility, index) => (
-              <article className="medical-facility-card" key={facility}>
-                <span className="medical-facility-icon" aria-hidden="true">{["✚", "＋", "⚕", "＋", "✳", "◉"][index]}</span>
-                <h3>{t(facility)}</h3>
-                <p>{t(["Urgent support is available day and night.", "Consultations and care for your health needs.", "Reliable testing to help guide your care.", "Access to the medicines your care requires.", "Clear imaging to support diagnosis.", "Ultrasound imaging with attentive care."][index])}</p>
-              </article>
+            {clinicServices.map((service) => (
+              <a className="medical-facility-card" href={`/services/${service.slug}`} key={service.slug}>
+                <span className="medical-facility-image"><img src={service.image} alt={service.imageAlt} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = service.fallbackImage || clinicReception; }} /></span>
+                <span className="medical-facility-type">{t(service.type)}</span>
+                <h3>{t(service.name)}</h3>
+                <span className="medical-facility-description">{t(service.description)}</span>
+                <span className="medical-facility-more">{t("Explore service")} <span aria-hidden="true">→</span></span>
+              </a>
             ))}
           </div>
         </section>
+
+        <ReviewsSection />
 
       </main>
 

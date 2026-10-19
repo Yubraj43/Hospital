@@ -45,7 +45,7 @@ function Footer() {
             <a href="https://www.facebook.com/people/Sirjana-Advanced-Polyclinic-Pvt-Ltd/61593686441693/?rdid=tE6ZOwTFb9kXoWau&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1dUXhKb8ry%2F" aria-label={t("Facebook")}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5h1.7V3.7c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.2V13H10v8h3.4Z" /></svg>
             </a>
-            <a href="#contact" aria-label={t("Instagram")}>
+            <a href="https://www.instagram.com/sirjanapolyclinic?srtk=eHlycW9icTdtOGFm" aria-label={t("Instagram")}>
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle className="social-icon-dot" cx="17.7" cy="6.7" r="1" /></svg>
             </a>
             <a href="https://vm.tiktok.com/ZS9Ux6MBUTxrK-r3W1B/" aria-label={t("TikTok")}>

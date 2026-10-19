@@ -152,7 +152,7 @@ border-bottom: 1px solid var(--hospital-border);
 }
 
 .main-header-content {
-min-height: 120px;
+min-height: 96px;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -166,11 +166,11 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-gap: 2px;
-min-height: 120px;
-min-width: 150px;
-padding-right: 22px;
-border-right: 1px solid var(--hospital-border);
+gap: 3px;
+min-height: 96px;
+min-width: 0;
+padding-right: 0;
+border-right: 0;
 flex-shrink: 0;
 color: var(--hospital-navy);
 text-decoration: none;
@@ -178,8 +178,8 @@ text-decoration: none;
 
 .hospital-logo-image {
   display: block;
-  width: 76px;
-  height: 76px;
+  width: 64px;
+  height: 64px;
   flex: 0 0 auto;
   object-fit: contain;
 }
@@ -189,7 +189,7 @@ text-decoration: none;
   flex-direction: column;
   align-items: center;
   color: #173b50;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: .15px;
@@ -263,11 +263,11 @@ display: inline-flex;
 align-items: center;
 justify-content: center;
 gap: 8px;
-padding: 17px 28px;
-border-radius: 24px;
+padding: 13px 20px;
+border-radius: 8px;
 background: #df1e2b;
 color: white;
-font-size: 16px;
+font-size: 14px;
 font-weight: 700;
 text-decoration: none;
 white-space: nowrap;
@@ -594,15 +594,16 @@ font-size: 17px;
 }
 
 .hospital-logo {
+flex-direction: column;
 min-height: 96px;
-min-width: 126px;
-padding-right: 12px;
+min-width: 0;
+gap: 2px;
 }
 
-.hospital-logo-image { width: 62px; height: 62px; }
+.hospital-logo-image { width: 54px; height: 54px; }
 
 .main-header-content { min-height: 96px; }
-.header-clinic-name { font-size: 11px; }
+.header-clinic-name { align-items: center; font-size: 11px; }
 
 .logo-symbol { width: 38px; height: 38px; font-size: 22px; }
 
@@ -613,15 +614,16 @@ height: 37px;
 
 .header-appointment {
 padding: 10px 12px;
-font-size: 10px;
+font-size: 12px;
 }
 
 .navigation {
-gap: 10px;
+gap: 9px;
 }
 
-.navigation a {
-font-size: 10px;
+.navigation a,
+.navigation-placeholder {
+font-size: 11px;
 }
 
 .footer-main {
@@ -649,33 +651,35 @@ box-shadow: 0 5px 18px #153c5510;
 .main-header-content {
 width: calc(100% - 28px);
 position: relative;
-min-height: 104px;
+min-height: 82px;
 flex-wrap: nowrap;
-gap: 8px;
-padding-top: 8px;
-padding-bottom: 8px;
+gap: 12px;
+padding-top: 7px;
+padding-bottom: 7px;
 }
 
 .hospital-logo {
 position: static;
-display: block;
-gap: 2px;
-width: 68px;
-height: 84px;
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 9px;
+width: auto;
+height: auto;
 min-width: 0;
 min-height: 0;
 padding-right: 0;
 border-right: 0;
-transform: none;
+flex-shrink: 1;
 }
 
-.hospital-logo-image { width: 68px; height: 68px; }
+.hospital-logo-image { width: 58px; height: 58px; }
 .header-clinic-name {
-position: absolute;
-top: 50%;
-left: 50%;
-font-size: 13px;
-transform: translate(-50%, -50%);
+position: static;
+align-items: flex-start;
+font-size: 14px;
+line-height: 1.12;
+transform: none;
 }
 
 .footer-logo {
@@ -708,8 +712,9 @@ font-size: 18px;
 display: flex;
 align-items: center;
 gap: 7px;
-position: absolute;
-right: 0;
+position: static;
+margin-left: auto;
+flex: 0 0 auto;
 }
 
 .mobile-menu-button {
@@ -717,20 +722,20 @@ display: inline-flex;
 align-items: center;
 justify-content: center;
 gap: 6px;
-width: 46px;
-height: 46px;
+width: 44px;
+height: 44px;
 margin: 0;
 padding: 0;
-border: 0;
-border-radius: 0;
-background: transparent;
+border: 1px solid #e4edf1;
+border-radius: 8px;
+background: #f7fafb;
 font-size: 14px;
 line-height: 1;
 }
 
 .menu-button-label { display: inline; }
 
-.menu-button-icon { font-size: 31px; }
+.menu-button-icon { font-size: 24px; }
 
 .mobile-appointment {
 display: inline-flex;
