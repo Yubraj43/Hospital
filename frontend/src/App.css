@@ -230,7 +230,9 @@
 }
 
 .doctor-icon {
-  border-color: #149d92;
+  padding: 3px;
+  border-color: #d91e2a;
+  background: #fff;
   color: #149d92;
 }
 
@@ -239,7 +241,6 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  filter: hue-rotate(183deg);
   object-fit: cover;
 }
 
