@@ -5,6 +5,7 @@ import pregnancyBanner from "./assets/pregnancy-care-banner.png";
 import clinicReception from "./assets/clinic-reception.jpg";
 import clinicDoctor from "./assets/clinic-doctor.jpg";
 import clinicAmbulance from "./assets/services/nepal-emergency-care.png";
+import doctorIcon from "./assets/doctor-icon.png";
 import AppointmentPage from "./components/AppointmentPage";
 import DoctorsPage from "./components/DoctorsPage";
 import GalleryPage from "./components/GalleryPage";
@@ -156,7 +157,7 @@ function App() {
         <section className="location-emergency-section" aria-label="Doctor search and emergency support">
           <div className="location-cards">
             <article className="location-card doctor-finder-card" id="doctor-finder">
-              <span className="location-icon doctor-icon" aria-hidden="true">✚</span>
+              <span className="location-icon doctor-icon"><img src={doctorIcon} alt="" /></span>
               <p className="location-kicker">EXPERT CARE</p>
               <h2>{t("Find Your Doctor")}</h2>
               <p className="location-description">{t("Meet our caring medical team and find the right specialist for your needs.")}</p>
