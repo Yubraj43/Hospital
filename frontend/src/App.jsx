@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import pregnancyBanner from "./assets/pregnancy-care-banner.png";
@@ -219,28 +219,56 @@ function App() {
 
 function FloatingContactTools({ language, setLanguage }) {
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const languagePickerRef = useRef(null);
+  const languageNames = { en: "English", ne: "नेपाली", bho: "भोजपुरी" };
+  const languageCodes = { en: "EN", ne: "ने", bho: "भोज" };
+
+  useEffect(() => {
+    if (!languageMenuOpen) return undefined;
+
+    const handlePointerDown = (event) => {
+      if (!languagePickerRef.current?.contains(event.target)) setLanguageMenuOpen(false);
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setLanguageMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [languageMenuOpen]);
 
   return (
     <div className="floating-contact-tools">
       <a className="whatsapp-float" href="https://wa.me/9779714548880?text=Hello%20Sirjana%20Polyclinic" target="_blank" rel="noreferrer" aria-label="Chat with Sirjana Polyclinic on WhatsApp">
         <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.04 3.2A12.7 12.7 0 0 0 5.1 22.35L3.3 28.9l6.7-1.75A12.7 12.7 0 1 0 16.04 3.2Zm0 23.1c-1.95 0-3.85-.52-5.5-1.52l-.4-.23-3.97 1.04 1.06-3.86-.26-.4A10.38 10.38 0 1 1 16.04 26.3Zm5.7-7.78c-.3-.15-1.76-.87-2.03-.97-.28-.1-.48-.15-.68.15-.2.3-.78.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.47-2.4-1.49-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.63-.93-2.23-.25-.59-.5-.5-.68-.51l-.58-.01c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.23 5.13 4.53.72.31 1.28.5 1.72.64.72.23 1.37.2 1.89.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.18-1.43-.08-.12-.28-.2-.58-.35Z" /></svg>
       </a>
-      <div className="language-picker">
+      <div className="language-picker" ref={languagePickerRef}>
         <button
           className="language-icon-button"
           type="button"
-          aria-label="Choose language"
+          aria-label={`Language: ${languageNames[language] || languageNames.en}`}
           aria-expanded={languageMenuOpen}
           aria-controls="language-options"
+          aria-haspopup="menu"
           onClick={() => setLanguageMenuOpen((open) => !open)}
         >
           <svg className="language-globe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3.5 12h17M12 3c2.4 2.5 3.5 5.5 3.5 9s-1.1 6.5-3.5 9c-2.4-2.5-3.5-5.5-3.5-9S9.6 5.5 12 3Z" /></svg>
+          <span className="language-current-code">{languageCodes[language] || languageCodes.en}</span>
+          <span className="language-chevron" aria-hidden="true">▾</span>
         </button>
         {languageMenuOpen && (
-          <div className="language-options" id="language-options" role="group" aria-label="Language options">
-            <button type="button" aria-pressed={language === "en"} onClick={() => { setLanguage("en"); setLanguageMenuOpen(false); }}>English</button>
-            <button type="button" aria-pressed={language === "ne"} onClick={() => { setLanguage("ne"); setLanguageMenuOpen(false); }}>नेपाली</button>
-            <button type="button" aria-pressed={language === "bho"} onClick={() => { setLanguage("bho"); setLanguageMenuOpen(false); }}>भोजपुरी</button>
+          <div className="language-options" id="language-options" role="menu" aria-label="Language options">
+            <span className="language-menu-title">Select language</span>
+            {Object.entries(languageNames).map(([code, name]) => (
+              <button key={code} type="button" role="menuitemradio" aria-checked={language === code} onClick={() => { setLanguage(code); setLanguageMenuOpen(false); }}>
+                <span>{name}</span>
+                {language === code && <span className="language-option-check" aria-hidden="true">✓</span>}
+              </button>
+            ))}
           </div>
         )}
       </div>
