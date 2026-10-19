@@ -79,10 +79,17 @@ else:
 # existing PostgreSQL support so the current production database can remain
 # online while its data is copied and checked before switching DATABASE_URL.
 if database_config.get("ENGINE") == "django.db.backends.mysql":
-    database_config.setdefault("OPTIONS", {})["charset"] = "utf8mb4"
+    mysql_options = database_config.setdefault("OPTIONS", {})
+    mysql_options["charset"] = "utf8mb4"
+    # Aiven supplies `ssl-mode=REQUIRED` in its connection URL. mysqlclient
+    # expects SSL settings as an `ssl` connection option instead of the URL
+    # query parameter name.
+    mysql_ssl_mode = str(mysql_options.pop("ssl-mode", "")).upper()
+    if mysql_ssl_mode in {"REQUIRED", "VERIFY_CA", "VERIFY_IDENTITY"}:
+        mysql_options["ssl"] = {}
     mysql_ssl_ca = os.environ.get("MYSQL_SSL_CA", "").strip()
     if mysql_ssl_ca:
-        database_config["OPTIONS"]["ssl"] = {"ca": mysql_ssl_ca}
+        mysql_options["ssl"] = {"ca": mysql_ssl_ca}
 
 DATABASES = {
     "default": database_config,
