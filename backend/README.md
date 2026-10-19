@@ -48,7 +48,7 @@ Appointment JSON accepts `patient_name`, `phone`, `appointment_date` (`YYYY-MM-D
 
 ## Deployment configuration
 
-Use environment variables in the backend hosting provider. Configure a strong `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `DJANGO_ALLOWED_HOSTS`, and the exact deployed frontend origin in `FRONTEND_ORIGINS`. Set `DATABASE_URL` to the database connection URL supplied by the provider. PostgreSQL remains supported, and MySQL can be selected by setting a MySQL URL; set `MYSQL_SSL_CA` only if the provider supplies a CA certificate file. For Railway Trial/Hobby, set `RESEND_API_KEY` and `RESEND_FROM_EMAIL` using a sending-only Resend key and a verified sender address. On hosts that permit SMTP, set `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, and `EMAIL_USE_TLS`. Never put mail credentials in React or commit them; store them only in backend secret settings.
+Use environment variables in the backend hosting provider. Configure a strong `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `DJANGO_ALLOWED_HOSTS`, and the exact deployed frontend origin in `FRONTEND_ORIGINS`. Set `DATABASE_URL` to the database connection URL supplied by the provider. PostgreSQL remains supported, and MySQL can be selected by setting a MySQL URL. Railway MySQL services may instead provide `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`, and `MYSQLDATABASE`; when `MYSQLHOST` is present, the app builds the MySQL connection from those variables. Set `MYSQL_SSL_CA` only if the provider supplies a CA certificate file. For Railway Trial/Hobby, set `RESEND_API_KEY` and `RESEND_FROM_EMAIL` using a sending-only Resend key and a verified sender address. On hosts that permit SMTP, set `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, and `EMAIL_USE_TLS`. Never put mail credentials in React or commit them; store them only in backend secret settings.
 
 ### Moving the existing database to MySQL without losing records
 
@@ -75,7 +75,7 @@ Never commit `.env`, database credentials, SMTP passwords, or real patient data.
 Create a Railway project from the GitHub repository, then configure its Django service:
 
 1. Set the service root directory to `/backend`.
-2. Add a Railway PostgreSQL service. Set the Django service's `DATABASE_URL` to the Postgres service's `DATABASE_URL` reference.
+2. Add a Railway PostgreSQL service. Set the Django service's `DATABASE_URL` to the Postgres service's `DATABASE_URL` reference. For MySQL, add a MySQL service and reference its `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`, and `MYSQLDATABASE` variables in the Django service. Do not manually use `mysql.railway.internal` unless that hostname is provided by the attached MySQL service in the same Railway environment.
 3. Set the build command to `python manage.py collectstatic --no-input`.
 4. Set the start command to `bash railway-start.sh`. It applies migrations, creates the configured superuser if missing, and starts Gunicorn on Railway's assigned port.
 5. Generate a public domain, then set `DJANGO_ALLOWED_HOSTS` to that exact host without `https://` or a trailing slash.

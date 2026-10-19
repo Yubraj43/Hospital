@@ -1,4 +1,5 @@
 import os
+from urllib.parse import quote
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
@@ -48,12 +49,31 @@ TEMPLATES = [{
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
-database_url = os.environ.get("DATABASE_URL", "")
-database_config = dj_database_url.config(
-    default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-    conn_max_age=60,
-    ssl_require=database_url.startswith(("postgres://", "postgresql://")),
-)
+database_url = os.environ.get("DATABASE_URL", "").strip()
+railway_mysql_host = os.environ.get("MYSQLHOST", "").strip()
+if railway_mysql_host:
+    railway_mysql_user = os.environ.get("MYSQLUSER", "root").strip()
+    railway_mysql_password = quote(os.environ.get("MYSQLPASSWORD", ""), safe="")
+    railway_mysql_database = os.environ.get("MYSQLDATABASE", "").strip()
+    railway_mysql_port = os.environ.get("MYSQLPORT", "3306").strip()
+    if not railway_mysql_database:
+        raise RuntimeError("MYSQLDATABASE must be configured when MYSQLHOST is set.")
+    database_url = (
+        f"mysql://{quote(railway_mysql_user, safe='')}:{railway_mysql_password}"
+        f"@{railway_mysql_host}:{railway_mysql_port}/{railway_mysql_database}"
+    )
+
+if railway_mysql_host:
+    database_config = dj_database_url.parse(
+        database_url,
+        conn_max_age=60,
+    )
+else:
+    database_config = dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=60,
+        ssl_require=database_url.startswith(("postgres://", "postgresql://")),
+    )
 
 # MySQL is supported for deployments that provide MySQL hosting. Keep the
 # existing PostgreSQL support so the current production database can remain
