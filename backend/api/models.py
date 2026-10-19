@@ -232,6 +232,8 @@ class Appointment(models.Model):
 
 class PatientReview(models.Model):
     name = models.CharField(max_length=80)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(max_length=254)
     rating = models.PositiveSmallIntegerField(choices=[(value, f"{value} star{'s' if value != 1 else ''}") for value in range(1, 6)])
     review = models.CharField(max_length=700)
     publication_consent = models.BooleanField(default=False)

@@ -60,7 +60,11 @@ class GalleryImageSerializer(serializers.ModelSerializer):
 class PatientReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = PatientReview
-        fields = ("id", "name", "rating", "review", "publication_consent", "submitted_at")
+        fields = ("id", "name", "phone_number", "email", "rating", "review", "publication_consent", "submitted_at")
+        extra_kwargs = {
+            "phone_number": {"write_only": True},
+            "email": {"write_only": True},
+        }
         read_only_fields = ("id", "submitted_at")
 
     def validate_publication_consent(self, value):
@@ -72,6 +76,12 @@ class PatientReviewSerializer(serializers.ModelSerializer):
         value = " ".join(value.split())
         if len(value) < 2:
             raise serializers.ValidationError("Enter a name with at least 2 characters.")
+        return value
+
+    def validate_phone_number(self, value):
+        value = value.strip()
+        if not re.fullmatch(r"[0-9+\-() ]{7,20}", value):
+            raise serializers.ValidationError("Enter a valid phone number.")
         return value
 
     def validate_review(self, value):

@@ -13,7 +13,14 @@ function ReviewsSection() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [formError, setFormError] = useState("");
-  const [form, setForm] = useState({ name: "", rating: "5", review: "", publication_consent: false });
+  const [form, setForm] = useState({
+    name: "",
+    phone_number: "",
+    email: "",
+    rating: "5",
+    review: "",
+    publication_consent: false,
+  });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -46,8 +53,9 @@ function ReviewsSection() {
         const details = Object.values(data).flat().filter(Boolean).join(" ");
         throw new Error(details || t("Please check your review and try again."));
       }
-      setMessage(t("Thank you. Your review was sent to the clinic for approval before it appears here."));
-      setForm({ name: "", rating: "5", review: "", publication_consent: false });
+      setReviews((currentReviews) => [data, ...currentReviews]);
+      setMessage(t("Thank you. Your review is now published. Your phone number and email remain private."));
+      setForm({ name: "", phone_number: "", email: "", rating: "5", review: "", publication_consent: false });
     } catch (error) {
       setFormError(error.message || t("We could not send your review. Please try again."));
     } finally {
@@ -57,71 +65,23 @@ function ReviewsSection() {
 
   return (
     <section className="reviews-section" id="reviews" aria-labelledby="reviews-heading">
-      <div className="reviews-content">
-        <div className="reviews-copy">
-          <p className="reviews-kicker">{t("YOUR VOICE MATTERS")}</p>
-          <h2 id="reviews-heading">{t("Patient reviews")}</h2>
-          <p>{t("Read feedback from patients and share your experience with Sirjana Advanced Polyclinic.")}</p>
-          <a href={clinicMapsUrl} target="_blank" rel="noreferrer" className="reviews-link">
-            {t("View our location on Google Maps")} <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-
-        <form className="reviews-form" onSubmit={submitReview}>
-          <h3>{t("Share your experience")}</h3>
-          <label>
-            {t("Your name")}
-            <input required minLength={2} maxLength={80} value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} autoComplete="name" />
-          </label>
-          <fieldset className="reviews-rating-field">
-            <legend>{t("Your rating")}</legend>
-            <div className="reviews-rating-stars" role="radiogroup" aria-label={t("Choose a star rating")}>
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <button
-                  key={rating}
-                  type="button"
-                  className={`reviews-rating-star ${rating <= Number(form.rating) ? "selected" : ""}`}
-                  role="radio"
-                  aria-checked={Number(form.rating) === rating}
-                  aria-label={`${rating} ${t("stars")}`}
-                  onClick={() => setForm({ ...form, rating: String(rating) })}
-                  onKeyDown={(event) => {
-                    if (event.key === "ArrowRight" || event.key === "ArrowUp") {
-                      event.preventDefault();
-                      setForm({ ...form, rating: String(Math.min(5, rating + 1)) });
-                      event.currentTarget.parentElement.querySelector(`[aria-label="${Math.min(5, rating + 1)} ${t("stars")}"]`)?.focus();
-                    } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
-                      event.preventDefault();
-                      setForm({ ...form, rating: String(Math.max(1, rating - 1)) });
-                      event.currentTarget.parentElement.querySelector(`[aria-label="${Math.max(1, rating - 1)} ${t("stars")}"]`)?.focus();
-                    }
-                  }}
-                >
-                  ★
-                </button>
-              ))}
-            </div>
-            <span className="reviews-rating-label">{form.rating} {t("stars")}</span>
-          </fieldset>
-          <label>
-            {t("Your review")}
-            <textarea required minLength={10} maxLength={700} rows={4} value={form.review} onChange={(event) => setForm({ ...form, review: event.target.value })} placeholder={t("Please avoid sharing private medical details.")} />
-          </label>
-          <p className="reviews-privacy-note">{t("Reviews are checked by the clinic before publication. Please do not include private medical information.")}</p>
-          <label className="reviews-consent">
-            <input type="checkbox" required checked={form.publication_consent} onChange={(event) => setForm({ ...form, publication_consent: event.target.checked })} />
-            <span>{t("I agree that the clinic may publish this review with my name after approval.")}</span>
-          </label>
-          {formError && <p className="reviews-form-message reviews-form-error" role="alert">{formError}</p>}
-          {message && <p className="reviews-form-message reviews-form-success" role="status">{message}</p>}
-          <button type="submit" className="reviews-google-link" disabled={submitting}>
-            {submitting ? t("Sending…") : t("Submit review")} <span aria-hidden="true">→</span>
-          </button>
-        </form>
+      <div className="reviews-intro">
+        <p className="reviews-kicker">{t("YOUR VOICE MATTERS")}</p>
+        <h2 id="reviews-heading">{t("Patient reviews")}</h2>
+        <p>{t("Read feedback from patients and share your experience with Sirjana Advanced Polyclinic.")}</p>
+        <a href={clinicMapsUrl} target="_blank" rel="noreferrer" className="reviews-link">
+          {t("View our location on Google Maps")} <span aria-hidden="true">↗</span>
+        </a>
       </div>
 
       <div className="reviews-list-wrap" aria-live="polite">
-        <h3>{t("What patients are saying")}</h3>
+        <div className="reviews-list-heading">
+          <div>
+            <p className="reviews-kicker">{t("REAL EXPERIENCES")}</p>
+            <h3>{t("What patients are saying")}</h3>
+          </div>
+          <span className="reviews-heading-mark" aria-hidden="true">“</span>
+        </div>
         {loading && <p className="reviews-empty">{t("Loading reviews…")}</p>}
         {!loading && loadError && <p className="reviews-empty">{t("Reviews are temporarily unavailable. Please check back soon.")}</p>}
         {!loading && !loadError && reviews.length === 0 && (
@@ -136,11 +96,66 @@ function ReviewsSection() {
                   <span className="visually-hidden">{review.rating} {t("out of 5 stars")}</span>
                 </div>
                 <p>{review.review}</p>
-                <footer>{review.name}</footer>
+                <footer><span aria-hidden="true">— </span>{review.name}</footer>
               </article>
             ))}
           </div>
         )}
+      </div>
+
+      <div className="reviews-form-wrap">
+        <form className="reviews-form" onSubmit={submitReview}>
+          <p className="reviews-kicker">{t("SHARE YOUR STORY")}</p>
+          <h3>{t("Write a review")}</h3>
+          <label>
+            {t("Your name")}
+            <input required minLength={2} maxLength={80} value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} autoComplete="name" />
+          </label>
+          <div className="reviews-contact-fields">
+            <label>
+              {t("Phone number")}
+              <input required type="tel" maxLength={20} value={form.phone_number} onChange={(event) => setForm({ ...form, phone_number: event.target.value })} autoComplete="tel" />
+            </label>
+            <label>
+              {t("Email address")}
+              <input required type="email" maxLength={254} value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} autoComplete="email" />
+            </label>
+          </div>
+          <p className="reviews-private-note">{t("Your phone number and email are collected privately and will never be shown on the website.")}</p>
+          <fieldset className="reviews-rating-field">
+            <legend>{t("Your rating")}</legend>
+            <div className="reviews-rating-stars" role="radiogroup" aria-label={t("Choose a star rating")}>
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <button
+                  key={rating}
+                  type="button"
+                  className={`reviews-rating-star ${rating <= Number(form.rating) ? "selected" : ""}`}
+                  role="radio"
+                  aria-checked={Number(form.rating) === rating}
+                  aria-label={`${rating} ${t("stars")}`}
+                  onClick={() => setForm({ ...form, rating: String(rating) })}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+            <span className="reviews-rating-label">{form.rating} {t("stars")}</span>
+          </fieldset>
+          <label>
+            {t("Your review")}
+            <textarea required minLength={10} maxLength={700} rows={4} value={form.review} onChange={(event) => setForm({ ...form, review: event.target.value })} placeholder={t("Please avoid sharing private medical details.")} />
+          </label>
+          <p className="reviews-privacy-note">{t("Your review will be published automatically. Please do not include private medical information.")}</p>
+          <label className="reviews-consent">
+            <input type="checkbox" required checked={form.publication_consent} onChange={(event) => setForm({ ...form, publication_consent: event.target.checked })} />
+            <span>{t("I agree that the clinic may publish this review with my name.")}</span>
+          </label>
+          {formError && <p className="reviews-form-message reviews-form-error" role="alert">{formError}</p>}
+          {message && <p className="reviews-form-message reviews-form-success" role="status">{message}</p>}
+          <button type="submit" className="reviews-google-link" disabled={submitting}>
+            {submitting ? t("Sending…") : t("Publish review")} <span aria-hidden="true">→</span>
+          </button>
+        </form>
       </div>
     </section>
   );

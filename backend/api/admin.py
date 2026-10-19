@@ -87,7 +87,7 @@ class PatientReviewAdmin(admin.ModelAdmin):
     readonly_fields = ("submitted_at",)
     ordering = ("-submitted_at",)
     fieldsets = (
-        ("Patient review", {"fields": ("name", "rating", "review")}),
+        ("Patient review", {"fields": ("name", "phone_number", "email", "rating", "review")}),
         ("Publication", {"fields": ("publication_consent", "is_published", "submitted_at")}),
     )
 

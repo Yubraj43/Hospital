@@ -109,7 +109,7 @@ class PatientReviewListCreateView(generics.ListCreateAPIView):
         return PatientReview.objects.filter(is_published=True)
 
     def perform_create(self, serializer):
-        serializer.save(is_published=False)
+        serializer.save(is_published=True)
 
 
 class AppointmentRateThrottle(AnonRateThrottle):
