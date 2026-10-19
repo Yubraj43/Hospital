@@ -49,12 +49,23 @@ WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
 database_url = os.environ.get("DATABASE_URL", "")
+database_config = dj_database_url.config(
+    default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    conn_max_age=60,
+    ssl_require=database_url.startswith(("postgres://", "postgresql://")),
+)
+
+# MySQL is supported for deployments that provide MySQL hosting. Keep the
+# existing PostgreSQL support so the current production database can remain
+# online while its data is copied and checked before switching DATABASE_URL.
+if database_config.get("ENGINE") == "django.db.backends.mysql":
+    database_config.setdefault("OPTIONS", {})["charset"] = "utf8mb4"
+    mysql_ssl_ca = os.environ.get("MYSQL_SSL_CA", "").strip()
+    if mysql_ssl_ca:
+        database_config["OPTIONS"]["ssl"] = {"ca": mysql_ssl_ca}
+
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=60,
-        ssl_require=database_url.startswith(("postgres://", "postgresql://")),
-    )
+    "default": database_config,
 }
 
 AUTH_PASSWORD_VALIDATORS = [

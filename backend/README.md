@@ -13,7 +13,7 @@ python -m pip install -r backend/requirements.txt
 Copy-Item backend/.env.example backend/.env
 ```
 
-Set local environment values in PowerShell before starting (or use your preferred environment-variable loader):
+Set local environment values in PowerShell before starting (or use your preferred environment-variable loader). Leaving `DATABASE_URL` empty uses local SQLite:
 
 ```powershell
 $env:DJANGO_DEBUG = "true"
@@ -48,7 +48,25 @@ Appointment JSON accepts `patient_name`, `phone`, `appointment_date` (`YYYY-MM-D
 
 ## Deployment configuration
 
-Use environment variables in the backend hosting provider. Configure a strong `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `DJANGO_ALLOWED_HOSTS`, and the exact deployed frontend origin in `FRONTEND_ORIGINS`. Set `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, and `DB_PORT` for PostgreSQL. For Railway Trial/Hobby, set `RESEND_API_KEY` and `RESEND_FROM_EMAIL` using a sending-only Resend key and a verified sender address. On hosts that permit SMTP, set `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, and `EMAIL_USE_TLS`. Never put mail credentials in React or commit them; store them only in backend secret settings.
+Use environment variables in the backend hosting provider. Configure a strong `DJANGO_SECRET_KEY`, `DJANGO_DEBUG=false`, `DJANGO_ALLOWED_HOSTS`, and the exact deployed frontend origin in `FRONTEND_ORIGINS`. Set `DATABASE_URL` to the database connection URL supplied by the provider. PostgreSQL remains supported, and MySQL can be selected by setting a MySQL URL; set `MYSQL_SSL_CA` only if the provider supplies a CA certificate file. For Railway Trial/Hobby, set `RESEND_API_KEY` and `RESEND_FROM_EMAIL` using a sending-only Resend key and a verified sender address. On hosts that permit SMTP, set `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, and `EMAIL_USE_TLS`. Never put mail credentials in React or commit them; store them only in backend secret settings.
+
+### Moving the existing database to MySQL without losing records
+
+The application supports both PostgreSQL and MySQL so the current database can remain in service during the move. Do not change the live `DATABASE_URL`, delete the old database, or run `flush` as part of this process. Back up uploaded media separately from database records.
+
+1. Take a provider snapshot/backup of the current database and download it somewhere safe. Keep the old database and its backups until the new site has been checked in production.
+2. At a quiet time, stop or pause writes to the current site. From `backend/`, export records from the current database (with its existing `DATABASE_URL` set):
+
+   ```powershell
+   python manage.py dumpdata --natural-foreign --natural-primary --exclude contenttypes --exclude auth.permission --indent 2 --output ..\clinic-data-backup.json
+   ```
+
+   Also copy the entire configured `MEDIA_ROOT` directory. Database exports do not contain uploaded image/document files.
+3. Create a separate, empty MySQL database. Keep its connection URL private. Temporarily set `DATABASE_URL` to that new MySQL URL in a local environment or staging service, then run `python manage.py migrate` followed by `python manage.py loaddata ..\clinic-data-backup.json`. This imports into the new database; it does not modify the old one.
+4. Compare record totals for the important admin sections (doctors, services, facilities, offers, notices, gallery, reviews, appointments, and staff users) between the old and new databases. Open representative records and images in the admin and public site. Copy media files into the new `MEDIA_ROOT` and confirm they load.
+5. Only after the copy and checks pass, update the production `DATABASE_URL` to the MySQL URL and restart the backend. Keep the original database and backup untouched until the new service has been stable and verified.
+
+If a check fails, point the app back to the original `DATABASE_URL`; because the old database was not changed, it remains the recovery point. Avoid putting real database URLs or patient data in Git, chat, or frontend settings.
 
 Never commit `.env`, database credentials, SMTP passwords, or real patient data. Create staff accounts through Django admin/user management and grant only the permissions each staff member needs. Configure persistent media storage for doctor photos, offers, notices, and gallery images before production deployment.
 
