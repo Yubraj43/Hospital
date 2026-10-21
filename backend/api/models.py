@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -147,6 +148,16 @@ class Notice(PublishedContent):
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     summary = models.TextField(blank=True)
     attachment = models.FileField(upload_to="notices/", blank=True)
+    pdf_attachment = models.FileField(
+        upload_to="notices/",
+        blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=["pdf"])],
+    )
+    image_attachment = models.FileField(
+        upload_to="notices/",
+        blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=["jpg", "jpeg"])],
+    )
     published_on = models.DateField(default=timezone.localdate)
     expires_on = models.DateField(null=True, blank=True)
     show_on_homepage = models.BooleanField(default=False)

@@ -46,7 +46,8 @@ class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
         fields = (
-            "id", "title", "slug", "summary", "attachment", "published_on", "expires_on",
+            "id", "title", "slug", "summary", "attachment", "pdf_attachment", "image_attachment",
+            "published_on", "expires_on",
             "show_on_homepage", "show_on_first_visit",
         )
 

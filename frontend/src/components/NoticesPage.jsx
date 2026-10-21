@@ -54,11 +54,18 @@ function NoticesPage() {
                   <h2>{notice.title}</h2>
                   {notice.summary && <p className="notice-summary">{notice.summary}</p>}
                 </div>
-                {notice.attachment && (
-                  <a className="notice-pdf-button" href={notice.attachment} target="_blank" rel="noreferrer">
-                    {t("View PDF")} <span aria-hidden="true">↗</span>
-                  </a>
-                )}
+                <div className="notice-file-actions">
+                  {getNoticeFile(notice, "pdf") && (
+                    <a className="notice-file-button" href={getNoticeFile(notice, "pdf")} target="_blank" rel="noreferrer">
+                      {t("View PDF")} <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                  {getNoticeFile(notice, "image") && (
+                    <a className="notice-file-button notice-image-button" href={getNoticeFile(notice, "image")} target="_blank" rel="noreferrer">
+                      {t("View JPG")} <span aria-hidden="true">↗</span>
+                    </a>
+                  )}
+                </div>
               </article>
             ))}
           </div>
@@ -66,6 +73,11 @@ function NoticesPage() {
       </div>
     </main>
   );
+}
+
+function getNoticeFile(notice, format) {
+  if (format === "pdf") return notice.pdf_attachment || notice.attachment;
+  return notice.image_attachment;
 }
 
 function formatDate(value) {

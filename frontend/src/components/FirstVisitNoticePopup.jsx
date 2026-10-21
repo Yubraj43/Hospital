@@ -68,12 +68,18 @@ function FirstVisitNoticePopup() {
         {notice.summary && <p className="notice-popup-summary">{notice.summary}</p>}
         <p className="notice-popup-date">{t("Published")} · {formatDate(notice.published_on)}</p>
         <div className="notice-popup-actions">
-          {notice.attachment && <a href={notice.attachment} target="_blank" rel="noreferrer" className="notice-popup-pdf">{t("View PDF")} <span aria-hidden="true">↗</span></a>}
+          {getNoticeFile(notice, "pdf") && <a href={getNoticeFile(notice, "pdf")} target="_blank" rel="noreferrer" className="notice-popup-file">{t("View PDF")} <span aria-hidden="true">↗</span></a>}
+          {getNoticeFile(notice, "image") && <a href={getNoticeFile(notice, "image")} target="_blank" rel="noreferrer" className="notice-popup-file notice-popup-image">{t("View JPG")} <span aria-hidden="true">↗</span></a>}
           <button type="button" className="notice-popup-dismiss" onClick={closePopup}>{t("Close")}</button>
         </div>
       </section>
     </div>
   );
+}
+
+function getNoticeFile(notice, format) {
+  if (format === "pdf") return notice.pdf_attachment || notice.attachment;
+  return notice.image_attachment;
 }
 
 function formatDate(value) {
