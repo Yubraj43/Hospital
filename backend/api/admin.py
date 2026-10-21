@@ -52,11 +52,15 @@ class OfferAdmin(admin.ModelAdmin):
 
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
-    list_display = ("title", "published_on", "expires_on", "show_on_homepage", "show_on_first_visit", "is_published")
+    list_display = ("serial_number", "title", "published_on", "expires_on", "show_on_homepage", "show_on_first_visit", "is_published")
     list_filter = ("is_published", "show_on_homepage", "show_on_first_visit", "published_on")
     search_fields = ("title", "summary")
     prepopulated_fields = {"slug": ("title",)}
     ordering = ("sort_order", "-published_on")
+
+    @admin.display(description="Serial No.", ordering="id")
+    def serial_number(self, obj):
+        return obj.pk
 
 
 @admin.register(GalleryImage)
