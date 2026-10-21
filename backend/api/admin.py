@@ -3,9 +3,15 @@ from django.contrib import admin
 from .models import Appointment, Doctor, EmergencyContactSettings, Facility, GalleryImage, Notice, Offer, PatientReview, Service
 
 
+class SerialNumberAdminMixin:
+    @admin.display(description="Serial No.", ordering="id")
+    def serial_number(self, obj):
+        return obj.pk
+
+
 @admin.register(EmergencyContactSettings)
-class EmergencyContactSettingsAdmin(admin.ModelAdmin):
-    list_display = ("phone_number",)
+class EmergencyContactSettingsAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "phone_number")
 
     def has_add_permission(self, request):
         return not EmergencyContactSettings.objects.exists()
@@ -15,8 +21,8 @@ class EmergencyContactSettingsAdmin(admin.ModelAdmin):
 
 
 @admin.register(Doctor)
-class DoctorAdmin(admin.ModelAdmin):
-    list_display = ("name", "specialization", "is_published", "sort_order", "updated_at")
+class DoctorAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "name", "specialization", "is_published", "sort_order", "updated_at")
     list_filter = ("is_published", "specialization")
     search_fields = ("name", "specialization", "qualifications")
     prepopulated_fields = {"slug": ("name",)}
@@ -24,8 +30,8 @@ class DoctorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ("name", "is_published", "sort_order", "updated_at")
+class ServiceAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "name", "is_published", "sort_order", "updated_at")
     list_filter = ("is_published",)
     search_fields = ("name", "description")
     prepopulated_fields = {"slug": ("name",)}
@@ -33,8 +39,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 @admin.register(Facility)
-class FacilityAdmin(admin.ModelAdmin):
-    list_display = ("name", "is_published", "sort_order", "updated_at")
+class FacilityAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "name", "is_published", "sort_order", "updated_at")
     list_filter = ("is_published",)
     search_fields = ("name", "description")
     prepopulated_fields = {"slug": ("name",)}
@@ -42,8 +48,8 @@ class FacilityAdmin(admin.ModelAdmin):
 
 
 @admin.register(Offer)
-class OfferAdmin(admin.ModelAdmin):
-    list_display = ("title", "offer_price", "starts_at", "expires_at", "is_published")
+class OfferAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "title", "offer_price", "starts_at", "expires_at", "is_published")
     list_filter = ("is_published", "starts_at", "expires_at")
     search_fields = ("title", "description")
     prepopulated_fields = {"slug": ("title",)}
@@ -51,29 +57,25 @@ class OfferAdmin(admin.ModelAdmin):
 
 
 @admin.register(Notice)
-class NoticeAdmin(admin.ModelAdmin):
+class NoticeAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
     list_display = ("serial_number", "title", "published_on", "expires_on", "show_on_homepage", "show_on_first_visit", "is_published")
     list_filter = ("is_published", "show_on_homepage", "show_on_first_visit", "published_on")
     search_fields = ("title", "summary")
     prepopulated_fields = {"slug": ("title",)}
     ordering = ("sort_order", "-published_on")
 
-    @admin.display(description="Serial No.", ordering="id")
-    def serial_number(self, obj):
-        return obj.pk
-
 
 @admin.register(GalleryImage)
-class GalleryImageAdmin(admin.ModelAdmin):
-    list_display = ("title", "category", "is_published", "sort_order", "updated_at")
+class GalleryImageAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "title", "category", "is_published", "sort_order", "updated_at")
     list_filter = ("category", "is_published")
     search_fields = ("title", "description")
     ordering = ("sort_order", "-created_at")
 
 
 @admin.register(Appointment)
-class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ("patient_name", "phone", "doctor", "appointment_date", "preferred_time", "status", "email_sent", "created_at")
+class AppointmentAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "patient_name", "phone", "doctor", "appointment_date", "preferred_time", "status", "email_sent", "created_at")
     list_filter = ("status", "appointment_date", "email_sent", "created_at")
     search_fields = ("patient_name", "phone", "email", "doctor__name")
     readonly_fields = ("created_at", "email_sent", "email_error")
@@ -82,8 +84,8 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(PatientReview)
-class PatientReviewAdmin(admin.ModelAdmin):
-    list_display = ("name", "rating", "review_preview", "is_published", "submitted_at")
+class PatientReviewAdmin(SerialNumberAdminMixin, admin.ModelAdmin):
+    list_display = ("serial_number", "name", "rating", "review_preview", "is_published", "submitted_at")
     list_filter = ("is_published", "rating", "submitted_at")
     search_fields = ("name", "review")
     list_editable = ("is_published",)
