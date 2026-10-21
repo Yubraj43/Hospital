@@ -35,9 +35,11 @@ function HomeFeaturedNotices() {
               <p>{formatDate(notice.published_on)}</p>
               <h3>{notice.title}</h3>
               {notice.summary && <span>{notice.summary}</span>}
+              {getNoticeFile(notice, "image") && (
+                <img className="home-notice-image" src={getNoticeFile(notice, "image")} alt={notice.title} />
+              )}
               <div className="home-notice-file-actions">
                 {getNoticeFile(notice, "pdf") && <a href={getNoticeFile(notice, "pdf")} target="_blank" rel="noreferrer">{t("View PDF")} <span aria-hidden="true">↗</span></a>}
-                {getNoticeFile(notice, "image") && <a href={getNoticeFile(notice, "image")} target="_blank" rel="noreferrer">{t("View JPG")} <span aria-hidden="true">↗</span></a>}
               </div>
             </article>
           ))}

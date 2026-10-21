@@ -66,10 +66,12 @@ function FirstVisitNoticePopup() {
         <p className="notice-popup-eyebrow">{t("CLINIC NOTICE")}</p>
         <h2 id="notice-popup-title">{notice.title}</h2>
         {notice.summary && <p className="notice-popup-summary">{notice.summary}</p>}
+        {getNoticeFile(notice, "image") && (
+          <img className="notice-popup-image" src={getNoticeFile(notice, "image")} alt={notice.title} />
+        )}
         <p className="notice-popup-date">{t("Published")} · {formatDate(notice.published_on)}</p>
         <div className="notice-popup-actions">
           {getNoticeFile(notice, "pdf") && <a href={getNoticeFile(notice, "pdf")} target="_blank" rel="noreferrer" className="notice-popup-file">{t("View PDF")} <span aria-hidden="true">↗</span></a>}
-          {getNoticeFile(notice, "image") && <a href={getNoticeFile(notice, "image")} target="_blank" rel="noreferrer" className="notice-popup-file notice-popup-image">{t("View JPG")} <span aria-hidden="true">↗</span></a>}
           <button type="button" className="notice-popup-dismiss" onClick={closePopup}>{t("Close")}</button>
         </div>
       </section>

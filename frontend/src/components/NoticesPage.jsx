@@ -53,16 +53,14 @@ function NoticesPage() {
                   <p className="notice-date">{t("Published")} · {formatDate(notice.published_on)}</p>
                   <h2>{notice.title}</h2>
                   {notice.summary && <p className="notice-summary">{notice.summary}</p>}
+                  {getNoticeFile(notice, "image") && (
+                    <img className="notice-card-image" src={getNoticeFile(notice, "image")} alt={notice.title} />
+                  )}
                 </div>
                 <div className="notice-file-actions">
                   {getNoticeFile(notice, "pdf") && (
                     <a className="notice-file-button" href={getNoticeFile(notice, "pdf")} target="_blank" rel="noreferrer">
                       {t("View PDF")} <span aria-hidden="true">↗</span>
-                    </a>
-                  )}
-                  {getNoticeFile(notice, "image") && (
-                    <a className="notice-file-button notice-image-button" href={getNoticeFile(notice, "image")} target="_blank" rel="noreferrer">
-                      {t("View JPG")} <span aria-hidden="true">↗</span>
                     </a>
                   )}
                 </div>
